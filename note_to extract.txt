@@ -1,0 +1,8 @@
+work for 12 deleting a row
+
+/SMILExtract -C my_config/IS12_speaker_trait.conf -I example-audio/opensmile.wav -D example-audio/opensmile_12.csv^C
+
+
+work for 11
+
+./SMILExtract -C my_config/IS11_speaker_state.conf -I example-audio/opensmile.wav -D example-audio/opensmile_11.csv
