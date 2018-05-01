@@ -1,20 +1,25 @@
-from pyAudioAnalysis import audioBasicIO
-from pyAudioAnalysis import audioFeatureExtraction
-import matplotlib.pyplot as plt
-[Fs, x] = audioBasicIO.readAudioFile("data/speechEmotion/00.wav");
-F = audioFeatureExtraction.stFeatureExtraction(x, Fs, 0.050*Fs, 0.025*Fs);
-plt.subplot(2,1,1); plt.plot(F[0,:]); plt.xlabel('Frame no'); plt.ylabel('ZCR'); 
-plt.subplot(2,1,2); plt.plot(F[1,:]); plt.xlabel('Frame no'); plt.ylabel('Energy'); plt.show()
+import os
+
+to_extract = "nope"
+rootdir = '/Documents/univerista/delft/deep_learning/venv/Emotional_recognition'
+openS_path = "/home/simone/Documents/univerista/delft/deep_learning/venv/openSMILE-2.1.0/"
+folder_for_feature = "/home/simone/Documents/univerista/delft/deep_learning/venv/Emotional_recognition/IEMOCAP_feature/"
+
+count = 0
+
+for subdir, dirs, files in os.walk(os.getcwd()+"/IEMOCAP_reduced"):
+	for file in files:
+		if file.endswith(".wav"):
+		 	#print(os.path.join(subdir, file))
+		 	to_extract = os.path.join(subdir, file)
+		 	os.system(openS_path+"SMILExtract -C "+openS_path
+		 			+"my_config/IS11_speaker_state.conf -I "+to_extract
+		 				+" -D "+folder_for_feature+os.path.splitext(file)[0]+".csv")
+		 	count += 1
+
+		 	break;
 
 
-
-
-
-#python audioAnalysis.py featureExtractionFile -i data/speechEmotion/00.wav -mw 1.0 -ms 1.0 -sw 0.050 -ss 0.050 -o data/speechEmotion/00.wav
-
-
-
-
-python pyAudioAnalysis/AaudioAnalysis.py featureExtractionFile -i data/speechEmotion/00.wav -mw 1.0 -ms 1.0 -sw 0.050 -ss 0.050 -o data/speechEmotion/00.wav
+print("\n\n\n\tcorrectly extract feature from "+str(count)+" .wav files\n\n\n")
 
 
