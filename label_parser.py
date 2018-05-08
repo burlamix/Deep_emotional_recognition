@@ -2,17 +2,17 @@ import os
 import csv
 
 file_name = "Ses01F_impro01.txt"
-file_output = "data_label.csv"
+file_output = "data/data_label.csv"
 
 count = 0
+with open(file_output, 'wb') as csvfile:
 
-for subdir, dirs, files in os.walk(os.getcwd()+"/IEMOCAP_reduced"):
-	for file in files:
-		if file.endswith(".txt"):
-		 	print(os.path.join(subdir, file))
+	for subdir, dirs, files in os.walk(os.getcwd()+"/IEMOCAP_reduced/session1"):
+		for file in files:
+			if file.endswith(".txt"):
+			 	print(os.path.join(subdir, file))
 
-			with open(os.path.join(subdir, file),'r') as f:
-				with open(file_output, 'wb') as csvfile:
+				with open(os.path.join(subdir, file),'r') as f:
 					spamwriter = csv.writer(csvfile)
 					for line in f:
 						interest_row = "["
@@ -22,7 +22,7 @@ for subdir, dirs, files in os.walk(os.getcwd()+"/IEMOCAP_reduced"):
 							print(line_splitted[3]+" "+line_splitted[4])
 							spamwriter.writerow([line_splitted[3],line_splitted[4]])
 
-		 					count += 1
+			 				count += 1
 
 		 	#break;
 

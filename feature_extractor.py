@@ -3,7 +3,7 @@ import os
 to_extract = "nope"
 rootdir = '/Documents/univerista/delft/deep_learning/venv/Emotional_recognition'
 openS_path = "/home/simone/Documents/univerista/delft/deep_learning/venv/openSMILE-2.1.0/"
-folder_for_feature = "/home/simone/Documents/univerista/delft/deep_learning/venv/Emotional_recognition/IEMOCAP_feature/"
+folder_for_feature = "/home/simone/Documents/univerista/delft/deep_learning/venv/Emotional_recognition/data/IEMOCAP_feature/"
 
 count = 0
 
@@ -17,7 +17,6 @@ for subdir, dirs, files in os.walk(os.getcwd()+"/IEMOCAP_reduced"):
 		 				+" -D "+folder_for_feature+os.path.splitext(file)[0]+".csv")
 		 	count += 1
 
-		 	break;
 
 
 print("\n\n\n\tcorrectly extract feature from "+str(count)+" .wav files\n\n\n")
