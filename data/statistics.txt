@@ -1,0 +1,11 @@
+statistics of the datasetang ; 3
+dis ; 0
+exc ; 0
+fea ; 0
+fru ; 0
+hap ; 0
+neu ; 0
+oth ; 0
+sad ; 194
+sur ; 0
+xxx ; 0

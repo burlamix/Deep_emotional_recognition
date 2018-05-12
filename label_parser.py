@@ -5,9 +5,27 @@ file_name = "Ses01F_impro01.txt"
 file_output = "data/data_label.csv"
 
 count = 0
+
+def insert_label_feature(file_to_change,label):
+	new_file_rows =[]
+	with open(file_to_change, 'rb') as csvfile:
+	     spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
+	     spamreader = iter(spamreader)
+	     new_file_rows.append(next(spamreader))
+	     for row in spamreader:
+	        print row
+	        row[0] = label
+	        new_file_rows.append(row)
+	        print "\n\n"
+
+	with open(file_to_change, 'wb') as file_to_write:
+		writer = csv.writer(file_to_write)
+		writer.writerows(new_file_rows)
+
+
 with open(file_output, 'wb') as csvfile:
 
-	for subdir, dirs, files in os.walk(os.getcwd()+"/IEMOCAP_reduced/session1"):
+	for subdir, dirs, files in os.walk(os.getcwd()+"/data/IEMOCAP_reduced/session1"):
 		for file in files:
 			if file.endswith(".txt"):
 			 	print(os.path.join(subdir, file))
@@ -21,6 +39,8 @@ with open(file_output, 'wb') as csvfile:
 							#print(line)
 							print(line_splitted[3]+" "+line_splitted[4])
 							spamwriter.writerow([line_splitted[3],line_splitted[4]])
+
+							insert_label_feature(os.getcwd()+"/data/IEMOCAP_feature/"+line_splitted[3]+".csv",line_splitted[4])
 
 			 				count += 1
 

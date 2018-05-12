@@ -7,7 +7,7 @@ folder_for_feature = "/home/simone/Documents/univerista/delft/deep_learning/venv
 
 count = 0
 
-for subdir, dirs, files in os.walk(os.getcwd()+"/IEMOCAP_reduced"):
+for subdir, dirs, files in os.walk(os.getcwd()+"/data/IEMOCAP_reduced/session1/audio/Ses01F_impro01"):
 	for file in files:
 		if file.endswith(".wav"):
 		 	#print(os.path.join(subdir, file))
