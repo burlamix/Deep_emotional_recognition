@@ -1,7 +1,8 @@
 import os
 import csv
 
-file_name = "Ses01F_impro01.txt"
+input_folder = "/data/IEMOCAP_reduced/session1"
+output_folder = "/data/IEMOCAP_feature"
 file_output = "data/data_label.csv"
 
 count = 0
@@ -25,7 +26,7 @@ def insert_label_feature(file_to_change,label):
 
 with open(file_output, 'wb') as csvfile:
 
-	for subdir, dirs, files in os.walk(os.getcwd()+"/data/IEMOCAP_reduced/session1"):
+	for subdir, dirs, files in os.walk(os.getcwd()+input_folder):
 		for file in files:
 			if file.endswith(".txt"):
 			 	print(os.path.join(subdir, file))
