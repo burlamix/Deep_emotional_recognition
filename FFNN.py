@@ -16,5 +16,5 @@ model.compile(loss='categorical_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
 
-model.fit_generator(generate_arrays_from_file('/my_file.txt'),
+model.fit_generator(dataset_generator(16),
                     steps_per_epoch=1000, epochs=10)
