@@ -27,7 +27,7 @@ def from_file(file):
 
 	        	yield	five_on_row , row[0]
 	        	#yield row[0]
-	         	mod=0
+	        	mod=0
 	     		five_on_row =[]
 	        mod+=1
 
