@@ -7,6 +7,47 @@ import os
 ex = 'data/sad/Ses01F_impro02_F002.csv'
 #ex = 'data/test.csv'
 
+def Categorical_label(label):
+# define the function blocks
+	def ang():
+	    return [1,0,0,0,0,0,0,0,0,0,0]
+	def dis():
+	    return [0,1,0,0,0,0,0,0,0,0,0]
+	def exc():
+	    return [0,0,1,0,0,0,0,0,0,0,0]
+	def fea():
+	    return [0,0,0,1,0,0,0,0,0,0,0]
+	def fru():
+	    return [0,0,0,0,1,0,0,0,0,0,0]
+	def hap():
+	    return [0,0,0,0,0,1,0,0,0,0,0]
+	def neu():
+	    return [0,0,0,0,0,0,1,0,0,0,0]
+	def oth():
+	    return [0,0,0,0,0,0,0,1,0,0,0]
+	def sad():
+	    return [0,0,0,0,0,0,0,0,1,0,0]
+	def sur():
+	    return [0,0,0,0,0,0,0,0,0,1,0]
+	def xxx():
+	    return [0,0,0,0,0,0,0,0,0,0,1]
+
+	# map the inputs to the function blocks
+	options = {'ang' : ang,
+	           'dis' : dis,
+	           'exc' : exc,
+	           'fea' : fea,
+	           'fru' : fru,
+	           'hap' : hap,
+	           'neu' : neu,
+	           'oth' : oth,           
+	           'sad' : sad,
+	           'sur' : sur,
+	           'xxx' : xxx,
+	}
+	return options[label]()
+
+
 
 
 #generator that return  five rows as array for each call
@@ -20,16 +61,20 @@ def from_file(file):
 		mod=0
 		five_on_row =[]
 		for row in spamreader:
+			mod = mod +1
 
 			#convert array of stringo to array of float skipping the first two element
 			five_on_row.extend(list(map(float,row[2:])))
 			if mod==4 :
 
-				yield	five_on_row , row[0]
-				#yield row[0]
+				#print(row[0])
+				#print(Categorical_label(row[0]))
+				yield	np.array(five_on_row) , Categorical_label(row[0])
+
+
 				mod=0
 				five_on_row =[]
-			mod+=1
+
 
 #generator that return five rows as array for each call, from all the file in the fiven folder
 def from_folder(folder):
@@ -42,7 +87,9 @@ def from_folder(folder):
 			#iterate until the generator and and return a exception
 			while True:
 				try:
-					yield next(iter_file)
+					new_d =np.array(next(iter_file))
+
+					yield new_d
 				except StopIteration:
 					#end of the file
 					break;
@@ -70,7 +117,6 @@ def reset_probability(folder_name):
 
 def dataset_generator(batch_size):
 
-	print("----")
 	#get the number of file per folder
 	with open(os.getcwd()+"/data/statistics.txt", 'rt') as csvfile:
 		spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
@@ -96,7 +142,8 @@ def dataset_generator(batch_size):
 
 		try:
 			# we don't handle the last not completely full batch ! in that case rememeber to remove batch counter = zero from the zero exception
-				new_xy = next(generator_list[x_folder])
+				new_xy = np.array(next(generator_list[x_folder]))
+
 				x_batch.append(new_xy[0])
 				y_batch.append(new_xy[1])
 				batch_counter =batch_counter+ 1
@@ -133,11 +180,12 @@ def dataset_generator(batch_size):
 
 
 
-data_gen = dataset_generator(32)
+#data_gen = dataset_generator(32)
 
 
-for i in range (10):
-	print(next(data_gen))
-	print(next(data_gen))
-	print('\n\n\n')
-# rint 'The value of PI is approximately'
+#for i in range (10000):
+	#new_d =next(data_gen)
+	#print(new_d[0].shape)#
+	#print(new_d)#
+	#print(next(data_gen))
+	#print('\n\n\n')# rint 'The value of PI is approximately'

@@ -5,11 +5,11 @@ from keras.optimizers import SGD
 from utils import dataset_generator
 
 model = Sequential()
-model.add(Dense(64, activation='relu', input_dim=20))
+model.add(Dense(64, activation='relu', input_dim=472))
 model.add(Dropout(0.5))
 model.add(Dense(64, activation='relu'))
 model.add(Dropout(0.5))
-model.add(Dense(10, activation='softmax'))
+model.add(Dense(11, activation='softmax'))
 
 
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
