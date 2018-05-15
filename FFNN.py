@@ -1,3 +1,4 @@
+import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import SGD
@@ -17,4 +18,4 @@ model.compile(loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 model.fit_generator(dataset_generator(16),
-                    steps_per_epoch=1000, epochs=10)
+                    steps_per_epoch=10, epochs=10)

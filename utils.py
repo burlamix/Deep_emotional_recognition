@@ -70,6 +70,7 @@ def reset_probability(folder_name):
 
 def dataset_generator(batch_size):
 
+	print("----")
 	#get the number of file per folder
 	with open(os.getcwd()+"/data/statistics.txt", 'rt') as csvfile:
 		spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
@@ -134,14 +135,9 @@ def dataset_generator(batch_size):
 
 data_gen = dataset_generator(32)
 
-# print('Sanity check')
+
 for i in range (10):
-
-	print(len(next(data_gen))
-	# print (next(data_gen)()[0][130])
-	# print'\n\n\n'
+	print(next(data_gen))
+	print(next(data_gen))
+	print('\n\n\n')
 # rint 'The value of PI is approximately'
-newvariabel = []
-
-
-
