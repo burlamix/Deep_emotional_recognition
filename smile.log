@@ -1,15 +1,10 @@
-[ 12.05.2018 - 18:56:42 ]
+[ 16.05.2018 - 08:36:34 ]
     (MSG) [2] in SMILExtract : openSMILE starting!
-[ 12.05.2018 - 18:56:42 ]
+[ 16.05.2018 - 08:36:34 ]
     (MSG) [2] in SMILExtract : config file is: /home/simone/Documents/univerista/delft/deep_learning/venv/openSMILE-2.1.0/my_config/IS11_speaker_state.conf
-[ 12.05.2018 - 18:56:42 ]
+[ 16.05.2018 - 08:36:34 ]
     (MSG) [2] in cComponentManager : successfully registered 95 component types.
-[ 12.05.2018 - 18:56:42 ]
+[ 16.05.2018 - 08:36:34 ]
     (MSG) [2] in instance 'csvsink' : No filename given, disabling this sink component.
-[ 12.05.2018 - 18:56:42 ]
-    (MSG) [2] in cComponentManager : successfully finished createInstances
-                                 (43 component instances were finalised, 1 data memories were finalised)
-[ 12.05.2018 - 18:56:42 ]
-    (MSG) [2] in cComponentManager : starting single thread processing loop
-[ 12.05.2018 - 18:56:43 ]
-    (MSG) [2] in cComponentManager : Processing finished! System ran for 989 ticks.
+[ 16.05.2018 - 08:36:34 ]
+    (ERROR) [1] in cCsvSink : Error opening file '/home/simone/Documents/univerista/delft/deep_learning/venv/Emotional_recognition/data/IEMOCAP_feature_train/Ses03M_impro06_M031.csv' for writing (component instance 'lldsink', type 'cCsvSink')

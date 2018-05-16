@@ -1,13 +1,13 @@
 import os
 
 to_extract = "nope"
-rootdir = '/Documents/univerista/delft/deep_learning/venv/Emotional_recognition'
-openS_path = "/home/simone/Documents/univerista/delft/deep_learning/venv/openSMILE-2.1.0/"
-folder_for_feature = "/home/simone/Documents/univerista/delft/deep_learning/venv/Emotional_recognition/data/IEMOCAP_feature/"
+rootdir = '/Documents/univerista/delft/deep_learning/viv3/Emotional_recognition'
+openS_path = "/home/simone/Documents/univerista/delft/deep_learning/viv3/openSMILE-2.1.0/"
+folder_for_feature = "/home/simone/Documents/univerista/delft/deep_learning/viv3/Emotional_recognition/data/IEMOCAP_feature_train/"
 
 count = 0
 
-for subdir, dirs, files in os.walk(os.getcwd()+"/data/IEMOCAP_reduced/session1/audio/Ses01F_impro01"):
+for subdir, dirs, files in os.walk(os.getcwd()+"/data/IEMOCAP_reduced/train"):
 	for file in files:
 		if file.endswith(".wav"):
 		 	#print(os.path.join(subdir, file))

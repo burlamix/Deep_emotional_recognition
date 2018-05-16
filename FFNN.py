@@ -5,14 +5,18 @@ from keras.optimizers import SGD
 from utils import dataset_generator
 
 model = Sequential()
-model.add(Dense(64, activation='relu', input_dim=472))
+model.add(Dense(64, activation='sigmoid', input_dim=472))
 model.add(Dropout(0.5))
-model.add(Dense(64, activation='relu'))
+model.add(Dense(64, activation='sigmoid'))
+model.add(Dropout(0.5))
+model.add(Dense(64, activation='sigmoid'))
+model.add(Dropout(0.5))
+model.add(Dense(64, activation='sigmoid'))
 model.add(Dropout(0.5))
 model.add(Dense(11, activation='softmax'))
 
 
-sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+sgd = SGD(lr=0.0005, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
