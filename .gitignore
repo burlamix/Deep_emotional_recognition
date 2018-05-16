@@ -1,2 +1,13 @@
+**/IEMOCAP_feature
+**/IEMOCAP_reduced
+**/IEMOCAP_feature_validation
+**/IEMOCAP_feature_test
+**/IEMOCAP_feature_train
 
 __pycache__/utils\.cpython-35\.pyc
+
+**/IEMOCAP_feature
+**/IEMOCAP_reduced
+**/IEMOCAP_feature_validation
+**/IEMOCAP_feature_test
+**/IEMOCAP_feature_train
