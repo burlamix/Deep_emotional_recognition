@@ -1,15 +1,26 @@
 import csv
 import os, os.path
 
+#file with the tuple "name file" "label"
 file_label = "data/data_label.csv"
+#folder from where we have to take the data
 file_feature_folder = 'data/IEMOCAP_feature'
+#folder where write the file
+new_folder = "train"
 
-with open(file_label, 'rb') as csvfile:
+os.system("mkdir -p "+new_folder)
+
+
+with open(file_label, 'rt') as csvfile:
 	spamreader = csv.reader(csvfile, delimiter=',', quotechar=',')
 	for row in spamreader:
 
-		os.system('cp '+file_feature_folder+'/'+row[0]+'.csv'+' '+'data/'+row[1])
-		print('cp '+file_feature_folder+'/'+row[0]+'.csv'+' '+'data/'+row[1])
+		os.system('mkdir -p data/'+new_folder+'/'+row[1]+'_'+row[0][15])
+		os.system( " cp "+file_feature_folder+'/'+row[0]+'.csv ' +'data/'+new_folder+'/'+row[1]+'_'+row[0][15])
+
+
+
+
 
 
 

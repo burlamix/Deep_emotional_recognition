@@ -115,7 +115,7 @@ def reset_probability(folder_name):
 
 
 
-def dataset_generator(batch_size):
+def dataset_generator(batch_size,segment):
 
 	#get the number of file per folder
 	with open(os.getcwd()+"/data/statistics.txt", 'rt') as csvfile:
@@ -130,7 +130,7 @@ def dataset_generator(batch_size):
 	generator_list = []
 	#make a list of generator for each folder
 	for name in folder_name:
-		generator_list.append(from_folder("data/"+name))
+		generator_list.append(from_folder("data/"+segment+"/"+name))
 
 	batch_counter = 0
 	x_batch = []

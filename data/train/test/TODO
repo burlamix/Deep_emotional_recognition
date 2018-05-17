@@ -1,0 +1,41 @@
+assumption:
+i) from 20 + 20 + 20 + 20 + 20 = 100 millisecond our network can undestand the emotion.
+
+
+
+https://github.com/keras-team/keras/issues/8078
+look the comment in this issur of a easy generator for a better undestanding.
+
+each yield has to return a batch 
+
+for us a batch is a 32* examplexs where each examples are 5 seuential rows made of 132+- feature, or in another point of view, an array of size 5*132 feature (what we actualy we are going to feed in the network.
+
+
+1) problem 
+
+	the shuffling of the fit_generator. it shuffle only the batch among them, so we have to made the batch in a smart way.
+	the smart way is to have inside the batch different y label (sad, happy,... ), 
+	to do so maybe the best way is to divide our data in different folder one for emotion (	DONE )
+	than take sequentialy from each of this folder one examples (5 rows of 20 millisecond) and add it in the new batch, untill we don't have 32 example. and keep goint on doing this in a 		while TRUE for
+	but this can be done in other way.
+
+
+
+next to do:
+
+	make the batch for the generator : taking one example at time looping the the different folder (to make the batch example of different labels)
+	or do that in a smarter way
+
+
+
+
+To resolve:
+what to do when the examples in a emotion folder are finish?
+
+
+
+
+
+
+
+* (just a random number often used for batch size)
