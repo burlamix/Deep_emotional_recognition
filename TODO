@@ -14,3 +14,6 @@
 
 3) 
 	insert a new parameter in the generator to return tuple (X,Y) for test, and batch of tuple (X,Y)*32 fro train and validation
+
+
+4) make the code for an automatic validation
