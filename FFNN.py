@@ -27,7 +27,7 @@ model.compile(loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 model.fit_generator(dataset_generator(16,'train'),
-                    steps_per_epoch=10, epochs=10)
+                    steps_per_epoch=10, epochs=1000)
 
 #model.load_weights('weights',by_name=False)
 
