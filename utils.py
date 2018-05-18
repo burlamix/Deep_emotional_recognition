@@ -149,7 +149,7 @@ def dataset_generator(batch_size,segment):
 				batch_counter =batch_counter+ 1
 
 				#if the batch is full yield the batch, and start to make a new batch
-				if batch_counter == 32 :
+				if batch_counter == batch_size :
 					yield np.array(x_batch) , np.array(y_batch)
 					batch_counter = 0
 					x_batch = []
@@ -180,7 +180,7 @@ def dataset_generator(batch_size,segment):
 
 
 
-#data_gen = dataset_generator(32)
+#data_gen = dataset_generator(21,'train')
 
 
 #for i in range (10000):

@@ -26,12 +26,12 @@ model.compile(loss='categorical_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
 
-model.fit_generator(dataset_generator(16),
-#                    steps_per_epoch=10, epochs=10)
+model.fit_generator(dataset_generator(16,'train'),
+                    steps_per_epoch=10, epochs=10)
 
 #model.load_weights('weights',by_name=False)
 
-print( model.predict_generator( dataset_generator(16,"test","male"), steps=1, max_queue_size=10, workers=1, use_multiprocessing=False, verbose=0))
+#print( model.predict_generator( dataset_generator(16,"test","male"), steps=1, max_queue_size=10, workers=1, use_multiprocessing=False, verbose=0))
 
 #model.save_weights("weights")
 
