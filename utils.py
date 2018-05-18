@@ -51,7 +51,7 @@ def Categorical_label(label):
 
 
 #generator that return  five rows as array for each call
-def from_file(file):
+def from_file(file, rows):
 	with open(file, 'rt') as csvfile:
 		spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
 		#skipp the first row
@@ -65,7 +65,7 @@ def from_file(file):
 
 			#convert array of stringo to array of float skipping the first two element
 			five_on_row.extend(list(map(float,row[2:])))
-			if mod==4 :
+			if mod > rows :
 
 				#print(row[0])
 				#print(Categorical_label(row[0]))
@@ -77,13 +77,13 @@ def from_file(file):
 
 
 #generator that return five rows as array for each call, from all the file in the fiven folder
-def from_folder(folder):
+def from_folder(folder, rows):
 	#iterate on each file
 	for subdir, dirs, files in os.walk(os.getcwd()+"/"+folder):
 		for file in files:
 			#create a generator to get all rows from a file
-			iter_file = from_file(os.getcwd()+"/"+folder+"/"+file)
-
+			iter_file = from_file(os.getcwd()+"/"+folder+"/"+file, rows)
+			print(new_d)
 			#iterate until the generator and and return a exception
 			while True:
 				try:
@@ -115,7 +115,7 @@ def reset_probability(folder_name):
 
 
 
-def dataset_generator(batch_size,segment):
+def dataset_generator(batch_size,segment, numberOfWindows):
 
 	#get the number of file per folder
 	with open(os.getcwd()+"/data/statistics.txt", 'rt') as csvfile:
@@ -130,7 +130,7 @@ def dataset_generator(batch_size,segment):
 	generator_list = []
 	#make a list of generator for each folder
 	for name in folder_name:
-		generator_list.append(from_folder("data/"+segment+"/"+name))
+		generator_list.append(from_folder("data/"+segment+"/"+name, numberOfWindows))
 
 	batch_counter = 0
 	x_batch = []
@@ -150,6 +150,7 @@ def dataset_generator(batch_size,segment):
 
 				#if the batch is full yield the batch, and start to make a new batch
 				if batch_counter == batch_size :
+
 					yield np.array(x_batch) , np.array(y_batch)
 					batch_counter = 0
 					x_batch = []

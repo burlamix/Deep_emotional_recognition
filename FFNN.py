@@ -26,7 +26,11 @@ model.compile(loss='categorical_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
 
-model.fit_generator(dataset_generator(16,'train'),
+#Make sure that there is a data\train folder and a data\validation folder containing all CSV's!
+training_generator = dataset_generator(16, 'train', 5)
+validation_generator = dataset_generator(16, 'validation', 5) 
+
+model.fit_generator(generator = training_generator, validation_data = validation_generator,
                     steps_per_epoch=10, epochs=1000)
 
 #model.load_weights('weights',by_name=False)
