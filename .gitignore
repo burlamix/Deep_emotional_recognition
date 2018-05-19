@@ -3,6 +3,9 @@
 **/IEMOCAP_feature_validation
 **/IEMOCAP_feature_test
 **/IEMOCAP_feature_train
+**/train
+**/test
+**/validation
 
 __pycache__/utils\.cpython-35\.pyc
 
@@ -11,3 +14,4 @@ __pycache__/utils\.cpython-35\.pyc
 **/IEMOCAP_feature_validation
 **/IEMOCAP_feature_test
 **/IEMOCAP_feature_train
+

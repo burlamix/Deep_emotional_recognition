@@ -7,92 +7,37 @@ import os
 ex = 'data/sad/Ses01F_impro02_F002.csv'
 #ex = 'data/test.csv'
 
-def Categorical_label(label):
+def Categorical_label(label,emotion):
 # define the function blocks
-	def ang():
-	    return [1,0,0,0,0,0,0,0,0,0,0]
-	def dis():
-	    return [0,1,0,0,0,0,0,0,0,0,0]
-	def exc():
-	    return [0,0,1,0,0,0,0,0,0,0,0]
-	def fea():
-	    return [0,0,0,1,0,0,0,0,0,0,0]
-	def fru():
-	    return [0,0,0,0,1,0,0,0,0,0,0]
-	def hap():
-	    return [0,0,0,0,0,1,0,0,0,0,0]
-	def neu():
-	    return [0,0,0,0,0,0,1,0,0,0,0]
-	def oth():
-	    return [0,0,0,0,0,0,0,1,0,0,0]
-	def sad():
-	    return [0,0,0,0,0,0,0,0,1,0,0]
-	def sur():
-	    return [0,0,0,0,0,0,0,0,0,1,0]
-	def xxx():
-	    return [0,0,0,0,0,0,0,0,0,0,1]
+	
+	hot_encoding = np.zeros(len(emotion))
+	hot_encoding[emotion.index(label)] = 1
 
-	# map the inputs to the function blocks
-	options = {'ang' : ang,
-	           'dis' : dis,
-	           'exc' : exc,
-	           'fea' : fea,
-	           'fru' : fru,
-	           'hap' : hap,
-	           'neu' : neu,
-	           'oth' : oth,           
-	           'sad' : sad,
-	           'sur' : sur,
-	           'xxx' : xxx,
-	}
-	return options[label]()
+	return hot_encoding
 
 
 
+def total_number(file_name, gender, emotion):
 
-#generator that return  five rows as array for each call
-def from_file(file):
-	with open(file, 'rt') as csvfile:
+	total = 0
+	count = np.zeros(len(emotion))
+
+	with open(os.getcwd()+"/data/IEMOCAP_feature_"+file_name+"/batch_count", 'rt') as csvfile:
 		spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
-		#skipp the first row
 		spamreader = iter(spamreader)
 		next(spamreader)
 
-		mod=0
-		five_on_row =[]
-		for row in spamreader:
-			mod = mod +1
+		for i in range(0,22):	
+			row = next(spamreader)
 
-			#convert array of stringo to array of float skipping the first two element
-			five_on_row.extend(list(map(float,row[2:])))
-			if mod==4 :
+			if (row[0][-1]==gender and any(row[0][:-2] in s for s in emotion) ):
+				total = total + int(row[1])
 
-				#print(row[0])
-				#print(Categorical_label(row[0]))
-				yield	np.array(five_on_row) , Categorical_label(row[0])
+				count[emotion.index(row[0][:-2])]=float(row[1])
 
+	prob = [x / total for x in count]
 
-				mod=0
-				five_on_row =[]
-
-
-#generator that return five rows as array for each call, from all the file in the fiven folder
-def from_folder(folder):
-	#iterate on each file
-	for subdir, dirs, files in os.walk(os.getcwd()+"/"+folder):
-		for file in files:
-			#create a generator to get all rows from a file
-			iter_file = from_file(os.getcwd()+"/"+folder+"/"+file)
-
-			#iterate until the generator and and return a exception
-			while True:
-				try:
-					new_d =np.array(next(iter_file))
-
-					yield new_d
-				except StopIteration:
-					#end of the file
-					break;
+	return total,emotion,prob
 
 
 def safe_div(x,y):
@@ -114,23 +59,63 @@ def reset_probability(folder_name):
 
 
 
-
-def dataset_generator(batch_size,segment):
-
-	#get the number of file per folder
-	with open(os.getcwd()+"/data/statistics.txt", 'rt') as csvfile:
-		spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
+#generator that return  five rows as array for each call
+def from_file(file,emotion):
+	with open(file, 'rt') as csvfile:
+		spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+		#skipp the first row
 		spamreader = iter(spamreader)
 		next(spamreader)
-		probability = list(map(float,next(spamreader)))
-		folder_name = next(spamreader)
+
+		mod=0
+		five_on_row =[]
+		for row in spamreader:
+
+			mod = mod +1
+
+			#convert array of stringo to array of float skipping the first two element
+			five_on_row.extend(list(map(float,row[2:])))
+			if mod==5 :
+
+				#print(len(five_on_row))
+				#print(Categorical_label(row[0]))
+				yield	np.array(five_on_row) , Categorical_label(row[0],emotion)
+
+
+				mod=0
+				five_on_row =[]
+
+
+#generator that return five rows as array for each call, from all the file in the fiven folder
+def from_folder(folder,emotion):
+	#iterate on each file
+	for subdir, dirs, files in os.walk(os.getcwd()+"/"+folder):
+		for file in files:
+			#create a generator to get all rows from a file
+			iter_file = from_file(os.getcwd()+"/"+folder+"/"+file,emotion)
+			#iterate until the generator and and return a exception
+			while True:
+				try:
+					new_d =np.array(next(iter_file))
+
+					yield new_d
+				except StopIteration:
+					#end of the file
+					break;
+
+
+
+def dataset_generator(batch_size,folder,gender,emotion):
+
+
+	total,folder_name,probability = total_number(folder, gender, emotion)
 
 	initial_probability = probability
 
 	generator_list = []
 	#make a list of generator for each folder
 	for name in folder_name:
-		generator_list.append(from_folder("data/"+segment+"/"+name))
+		generator_list.append(from_folder("data/"+folder+"/"+name+'_'+gender,emotion))
 
 	batch_counter = 0
 	x_batch = []
@@ -138,7 +123,7 @@ def dataset_generator(batch_size,segment):
 
 	while True:
 		#random with probability choise 
-		x_folder = np.random.choice(numpy.arange(0, 11), p=probability)
+		x_folder = np.random.choice(numpy.arange(0, len(probability)), p=probability)
 
 		try:
 			# we don't handle the last not completely full batch ! in that case rememeber to remove batch counter = zero from the zero exception
@@ -146,7 +131,7 @@ def dataset_generator(batch_size,segment):
 
 				x_batch.append(new_xy[0])
 				y_batch.append(new_xy[1])
-				batch_counter =batch_counter+ 1
+				batch_counter = batch_counter+ 1
 
 				#if the batch is full yield the batch, and start to make a new batch
 				if batch_counter == batch_size :
@@ -155,7 +140,7 @@ def dataset_generator(batch_size,segment):
 					x_batch = []
 					y_batch = []
 
-		#if one folder generator yiels an excemption (it means that the folder is empty)
+		#if one folder generator yiels an exception (it means that the folder is empty)
 		except StopIteration:
 
 			try:
@@ -167,18 +152,79 @@ def dataset_generator(batch_size,segment):
 
 			# if all folder are empty reset the generator and the probability
 			except ZeroDivisionError:
-
+				
 				probability = initial_probability
 				generator_list = []
 				for name in folder_name:
-					generator_list.append(from_folder("data/"+name))
+					generator_list.append(from_folder("data/"+folder+"/"+name+'_'+gender,emotion))
 				batch_counter = 0
 				x_batch = []
 				y_batch = []
 
 
 
+#not used
+def statistics(new_folder,gender,emotion=None):
 
+	dir_ang = 'data/'+new_folder+'/ang_'+gender
+	dir_dis = 'data/'+new_folder+'/dis_'+gender
+	dir_exc = 'data/'+new_folder+'/exc_'+gender
+	dir_fea = 'data/'+new_folder+'/fea_'+gender
+	dir_fru = 'data/'+new_folder+'/fru_'+gender
+	dir_hap = 'data/'+new_folder+'/hap_'+gender
+	dir_neu = 'data/'+new_folder+'/neu_'+gender
+	dir_oth = 'data/'+new_folder+'/oth_'+gender
+	dir_sad = 'data/'+new_folder+'/sad_'+gender
+	dir_sur = 'data/'+new_folder+'/sur_'+gender
+	dir_xxx = 'data/'+new_folder+'/xxx_'+gender
+
+
+	file = open('data/'+new_folder+'/statistics.txt','w') 
+
+	file.write('statistics of the dataset\n')
+
+	xxx_n = len([name for name in os.listdir(dir_xxx) if os.path.isfile(os.path.join(dir_xxx, name))])
+	ang_n = len([name for name in os.listdir(dir_ang) if os.path.isfile(os.path.join(dir_ang, name))])
+	dis_n = len([name for name in os.listdir(dir_dis) if os.path.isfile(os.path.join(dir_dis, name))])
+	exc_n = len([name for name in os.listdir(dir_exc) if os.path.isfile(os.path.join(dir_exc, name))])
+	fea_n = len([name for name in os.listdir(dir_fea) if os.path.isfile(os.path.join(dir_fea, name))])
+	fru_n = len([name for name in os.listdir(dir_fru) if os.path.isfile(os.path.join(dir_fru, name))])
+	hap_n = len([name for name in os.listdir(dir_hap) if os.path.isfile(os.path.join(dir_hap, name))])
+	neu_n = len([name for name in os.listdir(dir_neu) if os.path.isfile(os.path.join(dir_neu, name))])
+	sad_n = len([name for name in os.listdir(dir_sad) if os.path.isfile(os.path.join(dir_sad, name))])
+	sur_n = len([name for name in os.listdir(dir_sur) if os.path.isfile(os.path.join(dir_sur, name))])
+	oth_n = len([name for name in os.listdir(dir_oth) if os.path.isfile(os.path.join(dir_oth, name))])
+
+	tot = xxx_n + ang_n + dis_n +exc_n+fea_n+fru_n+hap_n+neu_n+sad_n+sur_n+oth_n
+
+	xxx_n = float(xxx_n)/tot
+	ang_n = float(ang_n)/tot
+	dis_n = float(dis_n)/tot
+	exc_n = float(exc_n)/tot
+	fea_n = float(fea_n)/tot
+	fru_n = float(fru_n)/tot
+	hap_n = float(hap_n)/tot
+	neu_n = float(neu_n)/tot
+	sad_n = float(sad_n)/tot
+	sur_n = float(sur_n)/tot
+	oth_n = float(oth_n)/tot
+
+	prob = [xxx_n,ang_n,dis_n,exc_n,fea_n,fru_n,hap_n,neu_n,sad_n,sur_n,oth_n]
+	name =  ["xxx","ang","dis","exc","fea","fru","hap","neu","sad","sur","oth"]
+
+	file.write(str(xxx_n)+";"+str(ang_n)+";"+str(dis_n)+";"+str(exc_n)+";"+str(fea_n)+
+		";"+str(fru_n)+";"+str(hap_n)+";"+str(neu_n)+";"+str(sad_n)+";"+str(sur_n)+";"+str(oth_n)+"\n")
+
+	file.write("xxx;ang;dis;exc;fea;fru;hap;neu;sad;sur;oth")
+
+
+	file.close() 
+
+	return (prob,name)
+
+
+
+#total_number('IEMOCAP_feature_test','M',['ang','dis','exc','fea','fru','hap','neu','oth','sad','sur','xxx'])
 
 #data_gen = dataset_generator(21,'train')
 

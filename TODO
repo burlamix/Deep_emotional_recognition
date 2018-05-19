@@ -1,16 +1,14 @@
 
 1)
-	Make a function for get the correct number of examples that the generator give to us
-
-	the function has to be structured like that
-
------>  VAR_num = read_from_info_file( VAR_file_name, VAR_gender, VAR_emotion):   <-------
-
-	the function read the VAR_file_name and from that based on VAR_gender (M/F) and VAR_emotion (wich emotion we take) return the total number of example.
-
-
-2)
-	adapt the code of the generator for select the emotion that we want
+	Adapt the label parsing in a way that is possibile execute it in each of our computer right now the path is 
+	base_path = "/Users/niklasbachmaier/IEMOCAP_Data/IEMOCAP_SPLIT_COPY/IEMOCAP_feature_validation/" and work only in the computer of niklas
 
 3) 
 	make the code for an automatic validation
+
+4)
+	start to think how to print the training of the network
+
+5)	
+	MOST IMPORTANT
+	undestant why the network classify always with te same type of class

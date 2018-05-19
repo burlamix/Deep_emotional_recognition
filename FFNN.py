@@ -4,36 +4,72 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import SGD
 from utils import dataset_generator
+from utils import total_number
 
 trainable = 'True'
 
-numpy.random.seed(5)
+
+#emotions = ['ang','dis','exc','fea','fru','hap','neu','oth','sad','sur','xxx']
+
+emotions = ['sad','hap']#,'ang','neu']
+
+
 
 model = Sequential()
-model.add(Dense(64, activation='sigmoid', input_dim=472, trainable=trainable,name='dense_1'))
-model.add(Dropout(0.5))
-model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_2'))
-model.add(Dropout(0.5))
-model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_3'))
-model.add(Dropout(0.5))
-model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_4'))
-model.add(Dropout(0.5))
-model.add(Dense(11, activation='softmax',name='dense_55'))
+model.add(Dense(256, activation='sigmoid', input_dim=590, trainable=trainable,name='dense_1'))
+#model.add(Dropout(0.5))
+#model.add(Dense(256, activation='sigmoid', trainable=trainable,name='dense_2'))
+#model.add(Dropout(0.5))
+#model.add(Dense(256, activation='sigmoid', trainable=trainable,name='dense_3'))
+#model.add(Dropout(0.5))
+#model.add(Dense(256, activation='sigmoid', trainable=trainable,name='dense_4'))
+#model.add(Dropout(0.5))
+#model.add(Dense(100, activation='sigmoid', trainable=trainable,name='dense_5'))
+#model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_6'))
+#model.add(Dense(32, activation='sigmoid', trainable=trainable,name='dense_7'))
+#model.add(Dense(16, activation='sigmoid', trainable=trainable,name='dense_8'))
+#model.add(Dense(8, activation='sigmoid', trainable=trainable,name='dense_9'))
+#model.add(Dropout(0.5))
+model.add(Dense(len(emotions), activation='softmax',name='dense_55'))
 
 
-sgd = SGD(lr=0.0005, decay=1e-6, momentum=0.9, nesterov=True)
+#some possible optimizer
+adam = keras.optimizers.Adam(lr=0.00001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+sgd = SGD(lr=0.00000000001, decay=0, momentum=0.0, nesterov=False)
+
+
 model.compile(loss='categorical_crossentropy',
-              optimizer=sgd,
+              optimizer=adam,
               metrics=['accuracy'])
 
-model.fit_generator(dataset_generator(16,'train'),
-                    steps_per_epoch=10, epochs=10)
+
+
+
+
+train_size,_,_ = total_number('train','M',emotions)
+validation_size,_,_ = total_number('test','M',emotions)
+test_size,_,_ = total_number('test','M',emotions)
+
+print("\nsize of train "+str(train_size)+"\n")
+print("size of test_size "+str(test_size)+"\n")
+
+train_generator = dataset_generator(32,'train','M',emotions)
+validation_generator = dataset_generator(32,'validation','M',emotions)
+test_generator = dataset_generator(32,'test','M',emotions)
+
+
+
+
+
+
+model.fit_generator(validation_generator, steps_per_epoch=480, epochs=300,shuffle=False)
 
 #model.load_weights('weights',by_name=False)
+print(model.predict_generator( test_generator, steps=test_size/32 ))
 
-#print( model.predict_generator( dataset_generator(16,"test","male"), steps=1, max_queue_size=10, workers=1, use_multiprocessing=False, verbose=0))
+print(model.evaluate_generator( test_generator, steps=test_size/32 ))
 
-#model.save_weights("weights")
+model.save_weights("weights")
 
 
 
