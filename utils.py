@@ -13,6 +13,7 @@ def Categorical_label(label,emotion):
 	hot_encoding = np.zeros(len(emotion))
 	hot_encoding[emotion.index(label)] = 1
 
+
 	return hot_encoding
 
 
@@ -22,7 +23,7 @@ def total_number(file_name, gender, emotion):
 	total = 0
 	count = np.zeros(len(emotion))
 
-	with open(os.getcwd()+"/data/IEMOCAP_feature_"+file_name+"/batch_count", 'rt') as csvfile:
+	with open(os.getcwd()+"/data/"+file_name+"/batch_count_"+file_name, 'rt') as csvfile:
 		spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
 		spamreader = iter(spamreader)
 		next(spamreader)
@@ -152,7 +153,7 @@ def dataset_generator(batch_size,folder,gender,emotion):
 
 			# if all folder are empty reset the generator and the probability
 			except ZeroDivisionError:
-				
+
 				probability = initial_probability
 				generator_list = []
 				for name in folder_name:
