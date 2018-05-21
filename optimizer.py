@@ -91,7 +91,7 @@ for activation in activations:
 
 											print(numpy.sum(model.predict_generator( train_generator, steps=test_size/batchSize ),axis=0))
 
-											print(asdamodel.evaluate_generator( test_generator, steps=test_size/batchSize ))
+											print(model.evaluate_generator( test_generator, steps=test_size/batchSize ))
 											print("activation= %s, dropout= %f, optimizer= %s, batch size = %d, epoch= %d, learning rate= %f" % (activation, dropout, optimizer, batchSize, epoch, learn_rate))
 											print("number of hidden1 neurons: %d, number of hidden2 neurons: %d, number of hidden3 neurons: %d, number of hidden4 neurons: %d" % (hidden1, hidden2, hidden3, hidden4))
 											model.save_weights("weights")
