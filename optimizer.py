@@ -74,8 +74,8 @@ for learn_rate in learn_rates:
 	validation_size,_,_ = total_number('test','M',emotions,size_batch,frame_number)
 	test_size,_,_ = total_number('test','M',emotions,size_batch,frame_number)
 
-	print("\nsize of train "+str(train_size)+"\n")
-	print("size of test_size "+str(test_size)+"\n")
+	#print("\nsize of train "+str(train_size)+"\n")
+	#print("size of test_size "+str(test_size)+"\n")
 
 	train_generator = dataset_generator(size_batch,'train','M',emotions,frame_number)
 	validation_generator = dataset_generator(size_batch,'validation','M',emotions,frame_number)
@@ -83,12 +83,11 @@ for learn_rate in learn_rates:
 
 
 
-	model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=1,shuffle=True,  use_multiprocessing =True, workers = 7 )
+	model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=200,shuffle=True,  use_multiprocessing =True, workers = 7 )
 
 	pred = model.predict_generator( test_generator, steps=test_size)
 	#print(pred)
-	print(numpy.sum(pred > 0.5,axis=0))
-
+	print(numpy.sum(pred > 0.25,axis=0))
 	print(model.evaluate_generator( test_generator, steps=test_size))
 	print("learning rate= %f" % (learn_rate))
 	
