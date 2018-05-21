@@ -17,6 +17,36 @@ def Categorical_label(label,emotion):
 	return hot_encoding
 
 
+def weight_class(file_name,emotion,gender):
+
+	total = 0
+	count = np.zeros(len(emotion))
+
+	with open(os.getcwd()+"/data/"+file_name+"/batch_count_"+file_name, 'rt') as csvfile:
+		spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+		spamreader = iter(spamreader)
+		next(spamreader)
+
+		for i in range(0,22):	
+			row = next(spamreader)
+
+			if (row[0][-1]==gender and any(row[0][:-2] in s for s in emotion) ):
+				total = total + int(row[1])
+
+				count[emotion.index(row[0][:-2])]=float(row[1])
+
+	class_weight = [ (total-x) for x in count]
+	min_n = min(count)
+	class_weight = [ x/min_n for x in class_weight]
+
+	class_weight_dict ={}
+
+	for i in range(0,len(class_weight)):
+		class_weight_dict.update({i:class_weight[i]})
+
+	return class_weight_dict
+
+
 
 def total_number(file_name, gender, emotion,size_batch,frame_number):
 
@@ -163,7 +193,8 @@ def dataset_generator(batch_size,folder,gender,emotion,frame_number):
 				probability = initial_probability
 				generator_list = []
 				for name in folder_name:
-					generator_list.append(from_folder("data/"+folder+"/"+name+'_'+gender,emotion, frame_number))
+					generator_list.append(from_folder("data/"+folder+"/"+name+'_'+gender,emotion,frame_number))
+
 				batch_counter = 0
 				x_batch = []
 				y_batch = []
