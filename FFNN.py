@@ -23,13 +23,13 @@ frame_number = 20
 
 
 model = Sequential()
-model.add(Dense(254, activation='sigmoid', input_dim=frame_number*33, name='dense_1',kernel_initializer='VarianceScaling'))
+model.add(Dense(254, activation='relu', input_dim=frame_number*33, name='dense_1',kernel_initializer='VarianceScaling'))
 #model.add(Dropout(0.5))
-model.add(Dense(254, activation='sigmoid', name='dense_2',kernel_initializer='VarianceScaling'))
+model.add(Dense(254, activation='relu', name='dense_2',kernel_initializer='VarianceScaling'))
 #model.add(Dropout(0.5))
-model.add(Dense(254, activation='sigmoid', name='dense_3',kernel_initializer='VarianceScaling'))
+model.add(Dense(254, activation='relu', name='dense_3',kernel_initializer='VarianceScaling'))
 #model.add(Dropout(0.5))
-model.add(Dense(254, activation='sigmoid', name='dense_4',kernel_initializer='VarianceScaling'))
+model.add(Dense(254, activation='relu', name='dense_4',kernel_initializer='VarianceScaling'))
 #model.add(Dropout(0.5))
 #model.add(Dense(100, activation='sigmoid', trainable=trainable,name='dense_5'))
 #model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_6'))
@@ -65,9 +65,9 @@ train_generator_overfit = dataset_generator(size_batch,'test','M',emotions,frame
 
 class_weight_dict = weight_class('train',emotions,'M')
 
+print(class_weight_dict)
 
-
-model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=100,shuffle=True,class_weight=class_weight_dict)
+model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=300,shuffle=True,class_weight=class_weight_dict)
 
 pred = model.predict_generator( train_generator_overfit, steps=test_size)
 
