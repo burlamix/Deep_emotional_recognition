@@ -36,7 +36,7 @@ model.add(Dense(len(emotions), activation='softmax',trainable=trainable,name='de
 
 #some possible optimizer
 adam =keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
-sgd = SGD(lr=1e-6, decay=0, momentum=0.9, nesterov=False)
+sgd = SGD(lr=1e-8, decay=0, momentum=0.9, nesterov=False)
 
 
 model.compile(loss='categorical_crossentropy',
@@ -56,10 +56,10 @@ test_generator = dataset_generator(64,'test','M',emotions)
 
 
 
-model.fit_generator(validation_generator, steps_per_epoch=train_size/64, epochs=250,shuffle=True, use_multiprocessing =True, workers = 7 )
+model.fit_generator(train_generator, steps_per_epoch=train_size/64, epochs=250,shuffle=True, use_multiprocessing =True, workers = 7 )
 
 #model.load_weights('weights',by_name=False)
-print(numpy.sum(model.predict_generator( train_generator, steps=test_size/64 ),axis=0))
+print(numpy.sum(model.predict_generator( test_generator, steps=test_size/64 ),axis=0))
 
 print(model.evaluate_generator( test_generator, steps=test_size/64 ))
 
