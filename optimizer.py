@@ -5,6 +5,7 @@ from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import SGD
 from utils import dataset_generator
 from utils import total_number
+
 numpy.set_printoptions(threshold=numpy.inf)
 
 trainable = 'True'
@@ -13,6 +14,7 @@ trainable = 'True'
 #emotions = ['ang','dis','exc','fea','fru','hap','neu','oth','sad','sur','xxx']
 
 emotions = ['sad','hap']#,'ang','neu']
+frame_number = 20
 
 
 #some possible optimizer
@@ -56,13 +58,13 @@ for activation in activations:
 				for hidden3 in hidden3_neurons:
 					for hidden4 in hidden4_neurons:
 						model = Sequential()
-						model.add(Dense(hidden1, activation=activation, input_dim=590, trainable=trainable,name='dense_1'))
+						model.add(Dense(hidden1, activation=activation, input_dim=frame_number*33,name='dense_1', kernel_initializer='VarianceScaling'))
 						model.add(Dropout(dropout))
-						model.add(Dense(hidden2, activation=activation, trainable=trainable,name='dense_2'))
+						model.add(Dense(hidden2, activation=activation, name='dense_2', kernel_initializer='VarianceScaling'))
 						model.add(Dropout(dropout))
-						model.add(Dense(hidden3, activation=activation, trainable=trainable,name='dense_3'))
+						model.add(Dense(hidden3, activation=activation, name='dense_3', kernel_initializer='VarianceScaling'))
 						model.add(Dropout(dropout))
-						model.add(Dense(hidden4, activation=activation, trainable=trainable,name='dense_4'))
+						model.add(Dense(hidden4, activation=activation, name='dense_4', kernel_initializer='VarianceScaling'))
 						model.add(Dense(len(emotions), activation='softmax',trainable=trainable,name='dense_55'))
 
 						for learn_rate in learn_rates:
@@ -87,14 +89,18 @@ for activation in activations:
 
 											model.fit_generator(validation_generator, steps_per_epoch=train_size/batchSize, epochs=epoch,shuffle=True)
 
-											model.load_weights('weights',by_name=False)
+											#model.load_weights('weights',by_name=False)
 
-											print(numpy.sum(model.predict_generator( train_generator, steps=test_size/batchSize ),axis=0))
+											#print(numpy.sum(model.predict_generator( train_generator, steps=test_size/batchSize ),axis=0))
+
+											pred = model.predict_generator( test_generator, steps=test_size)
+											print(pred)
+											print(numpy.sum(pred > 0.5,axis=0))
 
 											print(model.evaluate_generator( test_generator, steps=test_size/batchSize ))
 											print("activation= %s, dropout= %f, optimizer= %s, batch size = %d, epoch= %d, learning rate= %f" % (activation, dropout, optimizer, batchSize, epoch, learn_rate))
 											print("number of hidden1 neurons: %d, number of hidden2 neurons: %d, number of hidden3 neurons: %d, number of hidden4 neurons: %d" % (hidden1, hidden2, hidden3, hidden4))
-											model.save_weights("weights")
+											#model.save_weights("weights")
 
 
 
