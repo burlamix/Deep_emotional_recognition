@@ -80,21 +80,21 @@ for activation in activations:
 								for epoch in epochs:
 									for optimizer in optimizers:
 										
-											model.compile(loss='categorical_crossentropy',
+											#model.compile(loss='categorical_crossentropy',
 											              optimizer=optimizer,
 											              metrics=['accuracy'])
 
 
-											model.fit_generator(validation_generator, steps_per_epoch=train_size/batchSize, epochs=epoch,shuffle=True)
+											#model.fit_generator(validation_generator, steps_per_epoch=train_size/batchSize, epochs=epoch,shuffle=True)
 
 											#model.load_weights('weights',by_name=False)
 
-											print(numpy.sum(model.predict_generator( train_generator, steps=test_size/batchSize ),axis=0))
+											#print(numpy.sum(model.predict_generator( train_generator, steps=test_size/batchSize ),axis=0))
 
-											print(result = model.evaluate_generator( test_generator, steps=test_size/batchSize ))
+											#print(asdamodel.evaluate_generator( test_generator, steps=test_size/batchSize ))
 											print("activation= %s, dropout= %f, optimizer= %s, batch size = %f, epoch= %f, learning rate= %f" % (activation, dropout, optimizer, batchSize, epoch, learn_rate))
 											print("number of hidden1 neurons: %f, number of hidden2 neurons: %f, number of hidden3 neurons: %f, number of hidden4 neurons: %f" % (hidden1, hidden2, hidden3, hidden4))
-											model.save_weights("weights")
+											#model.save_weights("weights")
 
 
 
