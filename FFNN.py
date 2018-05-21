@@ -17,14 +17,14 @@ emotions = ['sad','hap']#,'ang','neu']
 
 
 model = Sequential()
-model.add(Dense(256, activation='relu', input_dim=590, trainable=trainable,name='dense_1'))
-#	model.add(Dropout(0.5))
-model.add(Dense(128, activation='relu', trainable=trainable,name='dense_2'))
-#model.add(Dropout(0.5))
-model.add(Dense(64, activation='relu', trainable=trainable,name='dense_3'))
-#model.add(Dropout(0.5))
-model.add(Dense(32, activation='relu', trainable=trainable,name='dense_4'))
-#model.add(Dropout(0.5))
+model.add(Dense(256, activation='sigmoid', input_dim=590, trainable=trainable,name='dense_1'))
+model.add(Dropout(0.5))
+model.add(Dense(256, activation='sigmoid', trainable=trainable,name='dense_2'))
+model.add(Dropout(0.5))
+model.add(Dense(256, activation='sigmoid', trainable=trainable,name='dense_3'))
+model.add(Dropout(0.5))
+model.add(Dense(256, activation='sigmoid', trainable=trainable,name='dense_4'))
+# model.add(Dropout(0.5))
 #model.add(Dense(100, activation='sigmoid', trainable=trainable,name='dense_5'))
 #model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_6'))
 #model.add(Dense(32, activation='sigmoid', trainable=trainable,name='dense_7'))
@@ -36,7 +36,7 @@ model.add(Dense(len(emotions), activation='softmax',trainable=trainable,name='de
 
 #some possible optimizer
 adam =keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
-sgd = SGD(lr=10, decay=1e-6, momentum=0.9, nesterov=False)
+sgd = SGD(lr=1e-6, decay=0, momentum=0.9, nesterov=False)
 
 
 model.compile(loss='categorical_crossentropy',
@@ -56,7 +56,7 @@ test_generator = dataset_generator(64,'test','M',emotions)
 
 
 
-model.fit_generator(validation_generator, steps_per_epoch=train_size/64, epochs=100,shuffle=True, use_multiprocessing =True, workers = 7 )
+model.fit_generator(validation_generator, steps_per_epoch=train_size/64, epochs=500,shuffle=True, use_multiprocessing =True, workers = 7 )
 
 #model.load_weights('weights',by_name=False)
 print(numpy.sum(model.predict_generator( train_generator, steps=test_size/64 ),axis=0))
