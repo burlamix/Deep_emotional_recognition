@@ -11,7 +11,6 @@ from sklearn.metrics import confusion_matrix
 numpy.set_printoptions(threshold=numpy.inf)
 
 #41 -- 51
-numpy.random.seed(6)
 
 trainable = 'True'
 
@@ -42,12 +41,12 @@ model.add(Dense(len(emotions), activation='softmax',name='dense_55j'))
 
 #some possible optimizer
 
-adam =keras.optimizers.Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
-sgd = SGD(lr=0.0005, decay=0, momentum=0.9, nesterov=False)
+adam =keras.optimizers.Adam(lr=0.0000001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+sgd = SGD(lr=0.00000005, decay=1e-6, momentum=0.9, nesterov=True)
 
 #lr=0.0000001
 model.compile(loss='categorical_crossentropy',
-              optimizer=adam,
+              optimizer=sgd,
               metrics=['accuracy'])
 
 train_size,_,_ = total_number('train','M',emotions,size_batch,frame_number)
@@ -67,11 +66,7 @@ class_weight_dict = weight_class('train',emotions,'M')
 
 
 
-model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=1,shuffle=True,  use_multiprocessing =True, workers = 7 )
-
-
-
-model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=10,shuffle=True,class_weight=class_weight_dict)
+model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=200,shuffle=True,class_weight=class_weight_dict)
 
 pred = model.predict_generator( train_generator_overfit, steps=test_size)
 
