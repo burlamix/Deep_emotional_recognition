@@ -42,12 +42,12 @@ model.add(Dense(len(emotions), activation='softmax',name='dense_55j'))
 
 #some possible optimizer
 
-adam =keras.optimizers.Adam(lr=0.0000001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
-sgd = SGD(lr=0.0000001, decay=1e-6, momentum=0.9, nesterov=True)
+adam =keras.optimizers.Adam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+sgd = SGD(lr=0.000000001, decay=1e-6, momentum=0.9, nesterov=True)
 
 #lr=0.0000001
 model.compile(loss='categorical_crossentropy',
-              optimizer=sgd,
+              optimizer=adam,
               metrics=['accuracy'])
 
 train_size,_,_ = total_number('train','M',emotions,size_batch,frame_number)
