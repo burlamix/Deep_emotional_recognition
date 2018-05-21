@@ -18,7 +18,7 @@ def Categorical_label(label,emotion):
 
 
 
-def total_number(file_name, gender, emotion):
+def total_number(file_name, gender, emotion,size_batch,frame_number):
 
 	total = 0
 	count = np.zeros(len(emotion))
@@ -37,6 +37,8 @@ def total_number(file_name, gender, emotion):
 				count[emotion.index(row[0][:-2])]=float(row[1])
 
 	prob = [x / total for x in count]
+
+	total = ((total*5)/size_batch)/frame_number
 
 	return total,emotion,prob
 
@@ -61,7 +63,7 @@ def reset_probability(folder_name):
 
 
 #generator that return  five rows as array for each call
-def from_file(file,emotion):
+def from_file(file,emotion,frame_number):
 	with open(file, 'rt') as csvfile:
 		spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
 		#skipp the first row
@@ -74,9 +76,13 @@ def from_file(file,emotion):
 
 			mod = mod +1
 
+			#selecting part
+			selected_row = np.concatenate([ row[39:60] ,row[108:] ])
+
 			#convert array of stringo to array of float skipping the first two element
-			five_on_row.extend(list(map(float,row[2:])))
-			if mod==5 :
+			five_on_row.extend(list(map(float,selected_row)))
+
+			if mod==frame_number :
 
 				#print(len(five_on_row))
 				#print(Categorical_label(row[0]))
@@ -88,12 +94,12 @@ def from_file(file,emotion):
 
 
 #generator that return five rows as array for each call, from all the file in the fiven folder
-def from_folder(folder,emotion):
+def from_folder(folder,emotion,frame_number):
 	#iterate on each file
 	for subdir, dirs, files in os.walk(os.getcwd()+"/"+folder):
 		for file in files:
 			#create a generator to get all rows from a file
-			iter_file = from_file(os.getcwd()+"/"+folder+"/"+file,emotion)
+			iter_file = from_file(os.getcwd()+"/"+folder+"/"+file,emotion,frame_number)
 			#iterate until the generator and and return a exception
 			while True:
 				try:
@@ -106,17 +112,17 @@ def from_folder(folder,emotion):
 
 
 
-def dataset_generator(batch_size,folder,gender,emotion):
+def dataset_generator(batch_size,folder,gender,emotion,frame_number):
 
 
-	total,folder_name,probability = total_number(folder, gender, emotion)
+	total,folder_name,probability = total_number(folder, gender, emotion,batch_size,frame_number)
 
 	initial_probability = probability
 
 	generator_list = []
 	#make a list of generator for each folder
 	for name in folder_name:
-		generator_list.append(from_folder("data/"+folder+"/"+name+'_'+gender,emotion))
+		generator_list.append(from_folder("data/"+folder+"/"+name+'_'+gender,emotion,frame_number))
 
 	batch_counter = 0
 	x_batch = []
@@ -154,6 +160,7 @@ def dataset_generator(batch_size,folder,gender,emotion):
 			# if all folder are empty reset the generator and the probability
 			except ZeroDivisionError:
 
+				print("-------")
 				probability = initial_probability
 				generator_list = []
 				for name in folder_name:
