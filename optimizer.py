@@ -86,12 +86,12 @@ for learn_rate in learn_rates:
 	model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=1,shuffle=True,  use_multiprocessing =True, workers = 7 )
 
 	pred = model.predict_generator( test_generator, steps=test_size)
-	print(pred)
+	#print(pred)
 	print(numpy.sum(pred > 0.5,axis=0))
 
 	print(model.evaluate_generator( test_generator, steps=test_size))
-	print("activation= %s, dropout= %f, optimizer= %s, batch size = %d, epoch= %d, learning rate= %f" % (activation, dropout, optimizer, batchSize, epoch, learn_rate))
-	print("number of hidden1 neurons: %d, number of hidden2 neurons: %d, number of hidden3 neurons: %d, number of hidden4 neurons: %d" % (hidden1, hidden2, hidden3, hidden4))
+	print("learning rate= %f" % (learn_rate))
+	
 											
 
 
