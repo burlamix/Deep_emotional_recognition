@@ -81,8 +81,8 @@ for activation in activations:
 									for optimizer in optimizers:
 										
 											#model.compile(loss='categorical_crossentropy',
-											              optimizer=optimizer,
-											              metrics=['accuracy'])
+											              #optimizer=optimizer,
+											              #metrics=['accuracy'])
 
 
 											#model.fit_generator(validation_generator, steps_per_epoch=train_size/batchSize, epochs=epoch,shuffle=True)
