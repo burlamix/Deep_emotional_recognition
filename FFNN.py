@@ -17,7 +17,7 @@ trainable = 'True'
 
 #emotions = ['ang','dis','exc','fea','fru','hap','neu','oth','sad','sur','xxx']
 
-emotions = ['sad','ang']#,'ang','neu']
+emotions = ['sad','ang', 'neu', 'exc']#,'ang','neu']
 size_batch = 128
 frame_number = 20
 
@@ -40,7 +40,7 @@ model.add(Dense(len(emotions), activation='softmax',trainable=trainable,name='de
 
 
 #some possible optimizer
-adam =keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+adam =keras.optimizers.Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 sgd = SGD(lr=0.0005, decay=0, momentum=0.9, nesterov=False)
 
 #lr=0.0000001
@@ -61,7 +61,7 @@ test_generator = dataset_generator(size_batch,'test','M',emotions,frame_number)
 
 
 
-model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=1,shuffle=True)
+model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=1,shuffle=True,  use_multiprocessing =True, workers = 7 )
 
 #model.load_weights('weights',by_name=False)
 pred = model.predict_generator( test_generator, steps=test_size)
