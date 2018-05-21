@@ -56,7 +56,7 @@ test_generator = dataset_generator(64,'test','M',emotions)
 
 
 
-model.fit_generator(validation_generator, steps_per_epoch=train_size/64, epochs=100,shuffle=True)
+model.fit_generator(validation_generator, steps_per_epoch=train_size/64, epochs=100,shuffle=True, use_multiprocessing =True, workers = 4 )
 
 #model.load_weights('weights',by_name=False)
 print(numpy.sum(model.predict_generator( train_generator, steps=test_size/64 ),axis=0))
