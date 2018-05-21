@@ -13,7 +13,8 @@ numpy.set_printoptions(threshold=numpy.inf)
 #41 -- 51
 
 trainable = 'True'
-
+#6
+numpy.random.seed(10)
 
 #emotions = ['ang','dis','exc','fea','fru','hap','neu','oth','sad','sur','xxx']
 emotions = ['sad','hap']#,'ang','exc']
@@ -22,13 +23,13 @@ frame_number = 20
 
 
 model = Sequential()
-model.add(Dense(64, activation='sigmoid', input_dim=frame_number*33, name='dense_1',kernel_initializer='VarianceScaling'))
+model.add(Dense(254, activation='sigmoid', input_dim=frame_number*33, name='dense_1',kernel_initializer='VarianceScaling'))
 #model.add(Dropout(0.5))
-model.add(Dense(32, activation='sigmoid', name='dense_2',kernel_initializer='VarianceScaling'))
+model.add(Dense(254, activation='sigmoid', name='dense_2',kernel_initializer='VarianceScaling'))
 #model.add(Dropout(0.5))
-model.add(Dense(16, activation='sigmoid', name='dense_3',kernel_initializer='VarianceScaling'))
+model.add(Dense(254, activation='sigmoid', name='dense_3',kernel_initializer='VarianceScaling'))
 #model.add(Dropout(0.5))
-model.add(Dense(8, activation='sigmoid', name='dense_4',kernel_initializer='VarianceScaling'))
+model.add(Dense(254, activation='sigmoid', name='dense_4',kernel_initializer='VarianceScaling'))
 #model.add(Dropout(0.5))
 #model.add(Dense(100, activation='sigmoid', trainable=trainable,name='dense_5'))
 #model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_6'))
@@ -42,7 +43,7 @@ model.add(Dense(len(emotions), activation='softmax',name='dense_55j'))
 #some possible optimizer
 
 adam =keras.optimizers.Adam(lr=0.0000001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
-sgd = SGD(lr=0.00000005, decay=1e-6, momentum=0.9, nesterov=True)
+sgd = SGD(lr=0.00001, decay=1e-6, momentum=0.9, nesterov=True)
 
 #lr=0.0000001
 model.compile(loss='categorical_crossentropy',
@@ -50,7 +51,7 @@ model.compile(loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 train_size,_,_ = total_number('train','M',emotions,size_batch,frame_number)
-validation_size,_,_ = total_number('test','M',emotions,size_batch,frame_number)
+validation_size,_,_ = total_number('validation','M',emotions,size_batch,frame_number)
 test_size,_,_ = total_number('test','M',emotions,size_batch,frame_number)
 
 print("\nsize of train "+str(train_size)+"\n")
