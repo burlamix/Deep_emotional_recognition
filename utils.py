@@ -160,11 +160,10 @@ def dataset_generator(batch_size,folder,gender,emotion,frame_number):
 			# if all folder are empty reset the generator and the probability
 			except ZeroDivisionError:
 
-				print("-------")
 				probability = initial_probability
 				generator_list = []
 				for name in folder_name:
-					generator_list.append(from_folder("data/"+folder+"/"+name+'_'+gender,emotion))
+					generator_list.append(from_folder("data/"+folder+"/"+name+'_'+gender,emotion, frame_number))
 				batch_counter = 0
 				x_batch = []
 				y_batch = []
