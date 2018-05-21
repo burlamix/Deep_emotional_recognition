@@ -29,16 +29,16 @@ adamax = keras.optimizers.Adamax(lr=learning_rate, beta_1=0.9, beta_2=0.999, eps
 nadam = keras.optimizers.Nadam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None, schedule_decay=0.004)
 
 
-train_size,_,_ = total_number('train','M',emotions)
-validation_size,_,_ = total_number('test','M',emotions)
-test_size,_,_ = total_number('test','M',emotions)
+train_size,_,_ = total_number('train','M',emotions,size_batch,frame_number)
+validation_size,_,_ = total_number('test','M',emotions,size_batch,frame_number)
+test_size,_,_ = total_number('test','M',emotions,size_batch,frame_number)
 
 print("\nsize of train "+str(train_size)+"\n")
 print("size of test_size "+str(test_size)+"\n")
 
-train_generator = dataset_generator(64,'train','M',emotions)
-validation_generator = dataset_generator(64,'validation','M',emotions)
-test_generator = dataset_generator(64,'test','M',emotions)
+train_generator = dataset_generator(size_batch,'train','M',emotions,frame_number)
+validation_generator = dataset_generator(size_batch,'validation','M',emotions,frame_number)
+test_generator = dataset_generator(size_batch,'test','M',emotions,frame_number)
 
 #search parameters for hyperparameter optimization
 batch_sizes = [16, 32, 64, 128, 256]
