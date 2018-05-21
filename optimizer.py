@@ -19,7 +19,7 @@ size_batch = 128
 
 
 #some possible optimizer
-#learning_rate = 0.01
+learning_rate = 0.01
 sgd = SGD(lr=learning_rate, decay=1e-6, momentum=0.9, nesterov=False)
 rmsdrop = keras.optimizers.RMSprop(lr=learning_rate, rho=0.9, epsilon=None, decay=0.0)
 adagrad = keras.optimizers.Adagrad(lr=learning_rate, epsilon=None, decay=0.0)
