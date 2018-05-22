@@ -8,7 +8,7 @@ from utils import total_number
 from sklearn.metrics import confusion_matrix
 
 
-batch_size = 32
+batch_size = 64
 nb_feat = 33
 nb_class = 4
 nb_epoch = 80
@@ -16,11 +16,11 @@ nb_epoch = 80
 # def build_simple_lstm(nb_feat, nb_class, 
 optimizer='Adadelta'
 model = Sequential()
-model.add(LSTM(512, return_sequences=True, input_shape=(32, nb_feat)))
+model.add(LSTM(128, return_sequences=True, input_shape=(32, nb_feat)))
 model.add(Activation('tanh'))
-model.add(LSTM(256, return_sequences=False))
+model.add(LSTM(128, return_sequences=False))
 model.add(Activation('tanh'))
-model.add(Dense(512))
+model.add(Dense(128))
 model.add(Activation('tanh'))
 model.add(Dense(nb_class))
 model.add(Activation('softmax'))
