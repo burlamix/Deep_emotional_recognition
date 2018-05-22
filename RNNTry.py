@@ -17,7 +17,7 @@ nb_epoch = 80
 optimizer='Adadelta'
 optimizer =keras.optimizers.Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 model = Sequential()
-model.add(LSTM(128, return_sequences=True, input_shape=(32, nb_feat)))
+model.add(LSTM(512, return_sequences=True, input_shape=(50, nb_feat)))
 model.add(Activation('tanh'))
 model.add(LSTM(128, return_sequences=False))
 model.add(Activation('tanh'))
