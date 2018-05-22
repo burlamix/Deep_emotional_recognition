@@ -42,7 +42,7 @@ model.add(Dense(len(emotions), activation='softmax',name='dense_f'))
 
 #some possible optimizer
 
-adam =keras.optimizers.Adam(lr=5e-5, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+adam =keras.optimizers.Adam(lr=1e-5, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 sgd = SGD(lr=0.0000005, decay=1e-6, momentum=0.9, nesterov=True)
 
 #lr=0.0000001
@@ -71,7 +71,6 @@ for i in range(0,int(train_size)):
 	y.append(g[1][0])
 
 x = numpy.array(x)
-x = numpy.random.random((int(train_size), frame_number*33))
 y = numpy.array(y)
 
 class_weight_dict = weight_class('train',emotions,'M')
@@ -82,7 +81,7 @@ class_weight_dict = weight_class('train',emotions,'M')
 #print(numpy.sum(pred > 1/len(emotions),axis=0))
 #print(model.evaluate_generator( validation_generator, steps=validation_size))
 
-model.fit(x=x,y=y,batch_size=64, epochs=500,shuffle=True,class_weight=class_weight_dict)
+model.fit(x=x,y=y,batch_size=64, epochs=200,shuffle=True,class_weight=class_weight_dict)
 
 #model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=1500,shuffle=True,class_weight=class_weight_dict)
 
