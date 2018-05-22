@@ -32,7 +32,7 @@ model.add(Activation('softmax'))
 class_weight_dict = weight_class('train',emotions,'M')
 
 
-model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy', optimizer='Adadelta', metrics=['accuracy'])
 
     # return model
 
@@ -125,7 +125,7 @@ test_generator = dataset_generator(size_batch,'test','M',emotions,frame_number)
 
 
 
-model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=250,shuffle=True,  use_multiprocessing = True, workers = 6 , class_weight=class_weight_dict)
+model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=250,shuffle=True,  use_multiprocessing = True, workers = 6 , class_weight=class_weight_dict, validation_split =0.2)
 
 #model.load_weights('weights',by_name=False)
 pred = model.predict_generator( test_generator, steps=test_size)
