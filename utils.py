@@ -142,7 +142,7 @@ def from_folder(folder,emotion,frame_number):
 
 
 
-def dataset_generator(batch_size,folder,gender,emotion,frame_number):
+def dataset_generator(batch_size,folder,gender,emotion,frame_number, forRNN = False):
 
 
 	total,folder_name,probability = total_number(folder, gender, emotion,batch_size,frame_number)
@@ -165,9 +165,16 @@ def dataset_generator(batch_size,folder,gender,emotion,frame_number):
 		try:
 			# we don't handle the last not completely full batch ! in that case rememeber to remove batch counter = zero from the zero exception
 				new_xy = np.array(next(generator_list[x_folder]))
-
-				x_batch.append(new_xy[0])
+				if forRNN == True:
+					#reshape new_xy[0] from features*timewindows to featuers x timewindows
+					#old: (660,), new (20,33)
+					sequence = new_xy[0].reshape([frame_number,33])
+					x_batch.append(sequence)
+				else:					
+					x_batch.append(new_xy[0])
 				y_batch.append(new_xy[1])
+					
+				
 				batch_counter = batch_counter+ 1
 
 				#if the batch is full yield the batch, and start to make a new batch
