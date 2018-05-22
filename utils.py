@@ -207,6 +207,41 @@ def dataset_generator(batch_size,folder,gender,emotion,frame_number, forRNN = Fa
 				y_batch = []
 
 
+def get_samples():
+	for subdir, dirs, files in os.walk(os.getcwd()+"/"+folder):
+		for file in files:
+			with open(file, 'rt') as csvfile:
+				spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+				#skipp the first row
+				spamreader = iter(spamreader)
+				next(spamreader)
+
+				mod=0
+				five_on_row =[]
+				for row in spamreader:
+
+					mod = mod +1
+
+					#selecting part
+					selected_row = np.concatenate([ row[39:60] ,row[108:] ])
+
+					#convert array of stringo to array of float skipping the first two element
+					five_on_row.extend(list(map(float,selected_row)))
+
+					if mod==frame_number :
+
+						#print(len(five_on_row))
+						#print(Categorical_label(row[0]))
+						x_train.append(np.array(five_on_row))
+						y_train.append(Categorical_label(row[0],emotion))
+						yield	np.array(five_on_row) , Categorical_label(row[0],emotion)
+
+
+						mod=0
+						five_on_row =[]
+
+		return x_train, y_train
+
 
 #not used
 def statistics(new_folder,gender,emotion=None):
