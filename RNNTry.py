@@ -4,17 +4,19 @@ from keras.models import Sequential, Model
 from keras.layers import Dense, Dropout, Activation, LSTM
 from keras.optimizers import SGD
 from utils import dataset_generator
-from utils import total_number
+from utils import total_number, weight_class
 from sklearn.metrics import confusion_matrix
 
 
-batch_size = 1024
+batch_size = 128	
 size_batch = batch_size
 nb_feat = 33
 nb_class = 4
 nb_epoch = 80
+emotions = ['sad','ang', 'neu', 'exc']#,'ang','neu']
 
-frame_number = 100
+
+frame_number = 50
 # def build_simple_lstm(nb_feat, nb_class, 
 optimizer='Adadelta'
 optimizer =keras.optimizers.Adam(lr=0.1, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
@@ -27,6 +29,8 @@ model.add(Dense(512))
 model.add(Activation('tanh'))
 model.add(Dense(nb_class))
 model.add(Activation('softmax'))
+class_weight_dict = weight_class('train',emotions,'M')
+
 
 model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
 
@@ -76,7 +80,7 @@ trainable = 'True'
 
 #emotions = ['ang','dis','exc','fea','fru','hap','neu','oth','sad','sur','xxx']
 
-emotions = ['sad','ang', 'neu', 'exc']#,'ang','neu']
+
 
 
 
@@ -121,7 +125,7 @@ test_generator = dataset_generator(size_batch,'test','M',emotions,frame_number)
 
 
 
-model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=250,shuffle=True,  use_multiprocessing = True, workers = 6 )
+model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=250,shuffle=True,  use_multiprocessing = True, workers = 6 , class_weight=class_weight_dict)
 
 #model.load_weights('weights',by_name=False)
 pred = model.predict_generator( test_generator, steps=test_size)
