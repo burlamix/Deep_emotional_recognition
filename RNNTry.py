@@ -118,7 +118,7 @@ test_generator = dataset_generator(size_batch,'test','M',emotions,frame_number)
 
 
 
-model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=250,shuffle=True,  use_multiprocessing = False, workers = 5 )
+model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=250,shuffle=True,  use_multiprocessing = True, workers = 6 )
 
 #model.load_weights('weights',by_name=False)
 pred = model.predict_generator( test_generator, steps=test_size)
