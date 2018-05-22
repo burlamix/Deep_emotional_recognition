@@ -1,5 +1,6 @@
 import keras
 import numpy
+import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import SGD
@@ -7,6 +8,9 @@ from utils import dataset_generator
 from utils import total_number
 from utils import weight_class
 from sklearn.metrics import confusion_matrix
+from keras.layers.normalization import BatchNormalization
+
+
 
 numpy.set_printoptions(threshold=numpy.inf)
 
@@ -23,13 +27,14 @@ frame_number = 20
 
 
 model = Sequential()
-model.add(Dense(128, activation='relu', input_dim=frame_number*33, name='dense_1',kernel_initializer='glorot_normal'))
-model.add(Dropout(0.2))
-model.add(Dense(64, activation='relu', name='dense_2',kernel_initializer='glorot_normal'))
-model.add(Dropout(0.2))
-model.add(Dense(32, activation='relu', name='dense_3',kernel_initializer='glorot_normal'))
-model.add(Dropout(0.2))
-model.add(Dense(16, activation='sigmoid', name='dense_4',kernel_initializer='glorot_normal'))
+model.add(Dense(256, activation='relu', input_dim=frame_number*33, name='dense_1',kernel_initializer='glorot_normal'))
+model.add(BatchNormalization())
+model.add(Dropout(0.5))
+model.add(Dense(128, activation='relu', name='dense_2',kernel_initializer='glorot_normal'))
+model.add(Dropout(0.5))
+model.add(Dense(64, activation='relu', name='dense_3',kernel_initializer='glorot_normal'))
+model.add(Dropout(0.5))
+model.add(Dense(32, activation='relu', name='dense_4',kernel_initializer='glorot_normal'))
 #model.add(Dropout(0.5))
 #model.add(Dense(100, activation='sigmoid', trainable=trainable,name='dense_5'))
 #model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_6'))
@@ -42,7 +47,7 @@ model.add(Dense(len(emotions), activation='softmax',name='dense_f'))
 
 #some possible optimizer
 
-adam =keras.optimizers.Adam(lr=1e-5, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+adam =keras.optimizers.Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 sgd = SGD(lr=0.0000005, decay=1e-6, momentum=0.9, nesterov=True)
 
 #lr=0.0000001
@@ -71,6 +76,7 @@ for i in range(0,int(train_size)):
 	y.append(g[1][0])
 
 x = numpy.array(x)
+x = tf.keras.utils.normalize(x,    axis=-1,    order=2)
 y = numpy.array(y)
 
 class_weight_dict = weight_class('train',emotions,'M')
