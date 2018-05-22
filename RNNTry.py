@@ -8,20 +8,22 @@ from utils import total_number
 from sklearn.metrics import confusion_matrix
 
 
-batch_size = 64
+batch_size = 1024
+size_batch = batch_size
 nb_feat = 33
 nb_class = 4
 nb_epoch = 80
 
+frame_number = 100
 # def build_simple_lstm(nb_feat, nb_class, 
 optimizer='Adadelta'
 optimizer =keras.optimizers.Adam(lr=0.1, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 model = Sequential()
-model.add(LSTM(512, return_sequences=True, input_shape=(50, nb_feat)))
+model.add(LSTM(512, return_sequences=True, input_shape=(frame_number, nb_feat)))
 model.add(Activation('tanh'))
-model.add(LSTM(128, return_sequences=False))
+model.add(LSTM(256, return_sequences=False))
 model.add(Activation('tanh'))
-model.add(Dense(128))
+model.add(Dense(512))
 model.add(Activation('tanh'))
 model.add(Dense(nb_class))
 model.add(Activation('softmax'))
@@ -75,8 +77,8 @@ trainable = 'True'
 #emotions = ['ang','dis','exc','fea','fru','hap','neu','oth','sad','sur','xxx']
 
 emotions = ['sad','ang', 'neu', 'exc']#,'ang','neu']
-size_batch = 32
-frame_number = 50
+
+
 
 
 # model = Sequential()
