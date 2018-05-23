@@ -142,7 +142,7 @@ def from_folder(folder,emotion,frame_number):
 
 
 
-def dataset_generator(batch_size,folder,gender,emotion,frame_number):
+def dataset_generator(batch_size,folder,gender,emotion,frame_number,stop=False):
 
 
 	total,folder_name,probability = total_number(folder, gender, emotion,batch_size,frame_number)
@@ -150,6 +150,7 @@ def dataset_generator(batch_size,folder,gender,emotion,frame_number):
 	initial_probability = probability
 
 	generator_list = []
+	no_stop = True
 	#make a list of generator for each folder
 	for name in folder_name:
 		generator_list.append(from_folder("data/"+folder+"/"+name+'_'+gender,emotion,frame_number))
@@ -158,7 +159,7 @@ def dataset_generator(batch_size,folder,gender,emotion,frame_number):
 	x_batch = []
 	y_batch = []
 
-	while True:
+	while (no_stop==True):
 		#random with probability choise 
 		x_folder = np.random.choice(numpy.arange(0, len(probability)), p=probability)
 
@@ -189,6 +190,9 @@ def dataset_generator(batch_size,folder,gender,emotion,frame_number):
 
 			# if all folder are empty reset the generator and the probability
 			except ZeroDivisionError:
+
+				if (stop==True):
+					no_stop = False
 
 				probability = initial_probability
 				generator_list = []
