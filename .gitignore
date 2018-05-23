@@ -17,3 +17,7 @@ __pycache__/utils\.cpython-35\.pyc
 
 
 data/to_server\.zip
+
+*.h5
+
+*.pyc
