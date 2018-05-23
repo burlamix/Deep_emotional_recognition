@@ -18,7 +18,7 @@ numpy.set_printoptions(threshold=numpy.inf)
 
 trainable = 'True'
 #6
-numpy.random.seed(6)
+ #numpy.random.seed(6)
 
 #emotions = ['ang','dis','exc','fea','fru','hap','neu','oth','sad','sur','xxx']
 emotions = ['hap','sad']#,'ang','exc']
@@ -28,7 +28,7 @@ frame_number = 20
 
 model = Sequential()
 model.add(Dense(256, activation='relu', input_dim=frame_number*33, name='dense_1',kernel_initializer='glorot_normal'))
-model.add(BatchNormalization())
+#model.add(BatchNormalization())
 model.add(Dropout(0.5))
 model.add(Dense(128, activation='relu', name='dense_2',kernel_initializer='glorot_normal'))
 model.add(Dropout(0.5))
@@ -47,7 +47,7 @@ model.add(Dense(len(emotions), activation='softmax',name='dense_f'))
 
 #some possible optimizer
 
-adam =keras.optimizers.Adam(lr=0.00001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+adam =keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 sgd = SGD(lr=0.0000005, decay=1e-6, momentum=0.9, nesterov=True)
 
 #lr=0.0000001
@@ -76,6 +76,7 @@ for i in range(0,int(train_size)):
 	y.append(g[1][0])
 
 x = numpy.array(x)
+#x = numpy.random.random((int(train_size), frame_number*33))
 x = tf.keras.utils.normalize(x,    axis=-1,    order=2)
 y = numpy.array(y)
 
@@ -87,7 +88,7 @@ class_weight_dict = weight_class('train',emotions,'M')
 #print(numpy.sum(pred > 1/len(emotions),axis=0))
 #print(model.evaluate_generator( validation_generator, steps=validation_size))
 
-model.fit(x=x,y=y,batch_size=64, epochs=700,shuffle=True,class_weight=class_weight_dict)
+model.fit(x=x,y=y,batch_size=32, epochs=250,shuffle=True,class_weight=class_weight_dict)
 
 #model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=1500,shuffle=True,class_weight=class_weight_dict)
 
