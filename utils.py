@@ -207,40 +207,57 @@ def dataset_generator(batch_size,folder,gender,emotion,frame_number, forRNN = Fa
 				y_batch = []
 
 
-def get_samples():
-	for subdir, dirs, files in os.walk(os.getcwd()+"/"+folder):
-		for file in files:
-			with open(file, 'rt') as csvfile:
-				spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
-				#skipp the first row
-				spamreader = iter(spamreader)
-				next(spamreader)
+def get_samples(folder, gender, emotion):
+	batch_size = 32
+	frame_number = 20
 
-				mod=0
-				five_on_row =[]
-				for row in spamreader:
+	total,folder_name,probability = total_number(folder, gender, emotion,batch_size,frame_number)
 
-					mod = mod +1
+	# initial_probability = probability
+	x_train = []
+	y_train = []
+	# generator_list = []
+	#make a list of generator for each folder
 
-					#selecting part
-					selected_row = np.concatenate([ row[39:60] ,row[108:] ])
+	for name in folder_name:
+		# generator_list.append(from_folder("data/"+folder+"/"+name+'_'+gender,emotion,frame_number))
+		print(name)
+		for subdir, dirs, files in os.walk(os.getcwd()+"/"+"data/"+folder+"/"+name+'_'+gender):
+			# print(files)
+			for file in files:
+				with open(os.getcwd()+"/"+"data/"+folder+"/"+name+'_'+gender+"/"+file, 'rt') as csvfile:
+				# with open(os.getcwd()+"/"+folder+"/"+file, 'rt') as csvfile:
+				# os.getcwd()+"/"+"data/"+folder+"/"+name+'_'+gender+"/"
+					spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+					#skipp the first row
+					spamreader = iter(spamreader)
+					next(spamreader)
 
-					#convert array of stringo to array of float skipping the first two element
-					five_on_row.extend(list(map(float,selected_row)))
+					mod=0
+					five_on_row =[]
+					for row in spamreader:
 
-					if mod==frame_number :
+						mod = mod +1
 
-						#print(len(five_on_row))
-						#print(Categorical_label(row[0]))
-						x_train.append(np.array(five_on_row))
-						y_train.append(Categorical_label(row[0],emotion))
-						yield	np.array(five_on_row) , Categorical_label(row[0],emotion)
+						#selecting part
+						selected_row = np.concatenate([ row[39:60] ,row[108:] ])
+
+						#convert array of stringo to array of float skipping the first two element
+						five_on_row.extend(list(map(float,selected_row)))
+						
+						if mod==frame_number :
+
+							#print(len(five_on_row))
+							#print(Categorical_label(row[0]))
+							x_train.append(np.array(five_on_row))
+							y_train.append(Categorical_label(row[0],emotion))
+							yield	np.array(five_on_row) , Categorical_label(row[0],emotion)
 
 
-						mod=0
-						five_on_row =[]
+							mod=0
+							five_on_row =[]
 
-		return x_train, y_train
+			return (x_train, y_train)
 
 
 #not used

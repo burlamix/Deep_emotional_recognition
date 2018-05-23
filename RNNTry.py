@@ -15,24 +15,79 @@ nb_class = 4
 nb_epoch = 80
 emotions = ['sad','ang', 'neu', 'exc']#,'ang','neu']
 
-
 frame_number = 50
+
+
+def data():
+    maxlen = 100
+    max_features = 20000
+
+    print('Loading data...')
+    (X_train, y_train), (X_test, y_test) = imdb.load_data(nb_words=max_features)
+    print(len(X_train), 'train sequences')
+    print(len(X_test), 'test sequences')
+
+    print("Pad sequences (samples x time)")
+    X_train = sequence.pad_sequences(X_train, maxlen=maxlen)
+    X_test = sequence.pad_sequences(X_test, maxlen=maxlen)
+    print('X_train shape:', X_train.shape)
+    print('X_test shape:', X_test.shape)
+
+    return X_train, X_test, y_train, y_test, max_features, maxlen
+
+    
+def model(X_train, X_test, y_train, y_test, max_features, maxlen):
+    model = Sequential()
+    model.add(Embedding(max_features, 128, input_length=maxlen))
+    model.add(LSTM({{choice([128,256,512])}}, return_sequences = True, input_shape=(frame_number, nb_feat)))
+    model.add(Activation('tanh'))
+    model.add(LSTM({{choice([64, 128,256])}}, return_sequences = False))
+    model.add(Activation('tanh'))
+    model.add(Dense({{choice([128,256,512])}}))
+    model.add(Dropout({{uniform(0, 1)}}))
+    model.add(Activation('tanh'))
+    model.add(Dense(nb_class))
+    model.add(Activation('softmax'))
+	class_weight_dict = weight_class('train',emotions,'M')
+
+
+	model.compile(loss='categorical_crossentropy', optimizer='Adadelta', metrics=['accuracy'])
+
+
+    early_stopping = EarlyStopping(monitor='val_loss', patience=4)
+    checkpointer = ModelCheckpoint(filepath='keras_weights.hdf5',
+                                   verbose=1,
+                                   save_best_only=True)
+
+    model.fit(X_train, y_train,
+              batch_size={{choice([32, 64, 128])}},
+              nb_epoch=1,
+              validation_split=0.08,
+              callbacks=[early_stopping, checkpointer])
+
+    score, acc = model.evaluate(X_test, y_test, verbose=0)
+
+    print('Test accuracy:', acc)
+    return {'loss': -acc, 'status': STATUS_OK, 'model': model}
+
+
+
 # def build_simple_lstm(nb_feat, nb_class, 
-optimizer='Adadelta'
-optimizer =keras.optimizers.Adam(lr=0.1, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
-model = Sequential()
-model.add(LSTM(512, return_sequences=True, input_shape=(frame_number, nb_feat)))
-model.add(Activation('tanh'))
-model.add(LSTM(256, return_sequences=False))
-model.add(Activation('tanh'))
-model.add(Dense(512))
-model.add(Activation('tanh'))
-model.add(Dense(nb_class))
-model.add(Activation('softmax'))
-class_weight_dict = weight_class('train',emotions,'M')
+# optimizer='Adadelta'
+# optimizer =keras.optimizers.Adam(lr=0.1, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+# model = Sequential()
+# model.add(LSTM(512, return_sequences=True, input_shape=(frame_number, nb_feat)))
+# model.add(Activation('tanh'))
+# model.add(LSTM(256, return_sequences=False))
+# model.add(Activation('tanh'))
+# model.add(Dense(512))
+# model.add(Activation('tanh'))
+# model.add(Dense(nb_class))
+# model.add(Activation('softmax'))
+# class_weight_dict = weight_class('train',emotions,'M')
 
 
-model.compile(loss='categorical_crossentropy', optimizer='Adadelta', metrics=['accuracy'])
+# model.compile(loss='categorical_crossentropy', optimizer='Adadelta', metrics=['accuracy'])
 
     # return model
 
