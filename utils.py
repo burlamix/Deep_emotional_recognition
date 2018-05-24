@@ -93,7 +93,7 @@ def static_dataset(folder,gender,emotion,frame_number,equal_size=False):
 		class_weight_dict.update({i:class_weight[i]})
 
 
-	return new_x,new_y,class_weight
+	return numpy.array(new_x),numpy.array(new_y),class_weight
 
 
 def total_number(file_name, gender, emotion,size_batch,frame_number):
