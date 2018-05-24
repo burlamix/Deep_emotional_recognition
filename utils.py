@@ -46,6 +46,54 @@ def weight_class(file_name,emotion,gender):
 
 	return class_weight_dict
 
+def static_dataset(folder,gender,emotion,frame_number,equal_size=False):
+
+	data_generator = dataset_generator(1,folder,gender,emotion,frame_number,stop=True)
+
+	x=[]
+	y=[]
+	new_x=[]
+	new_y=[]
+
+	counterrr=0
+	emo_counter_tot = np.zeros(len(emotion))
+	emo_counter = np.zeros(len(emotion))
+
+	total=0
+	while True:
+		total = total +1
+		try:
+			g = next(data_generator)
+			x.append(g[0][0])
+			y.append(g[1][0])	
+
+			emo_counter_tot[ np.nonzero(g[1][0])[0] ] = emo_counter_tot[np.nonzero(g[1][0])[0] ] + 1
+
+		except StopIteration:
+			break
+
+	min_n = min(emo_counter_tot)
+	total=0
+	#making the samples weight		
+	for i in range(0,len(x)):
+
+		if(emo_counter[ np.nonzero(y[i])[0] ] <min_n):
+			new_x.append(x[i])
+			new_y.append(y[i])	
+			emo_counter[ np.nonzero(y[i])[0] ] = emo_counter[ np.nonzero(y[i])[0] ] +1	
+			total =total + 1
+
+	class_weight = [ (total-x) for x in emo_counter]
+	min_n = min(class_weight)
+	class_weight = [ x/min_n for x in class_weight]
+
+	class_weight_dict ={}
+
+	for i in range(0,len(class_weight)):
+		class_weight_dict.update({i:class_weight[i]})
+
+
+	return new_x,new_y,class_weight
 
 
 def total_number(file_name, gender, emotion,size_batch,frame_number):
