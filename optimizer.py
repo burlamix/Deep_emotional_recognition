@@ -52,45 +52,6 @@ hidden1_neurons = [16, 32, 64, 128, 256]
 hidden2_neurons = [16, 32, 64, 128, 256]
 hidden3_neurons = [16, 32, 64, 128, 256]
 hidden4_neurons = [16, 32, 64, 128, 256]
-
-
-# for learn_rate in learn_rates:
-# 	model = Sequential()
-# 	model.add(Dense(256, activation='sigmoid', input_dim=frame_number*33, name='dense_1',kernel_initializer='VarianceScaling'))
-# 	model.add(Dropout(0.5))
-# 	model.add(Dense(128, activation='sigmoid', name='dense_2',kernel_initializer='VarianceScaling'))
-# 	model.add(Dropout(0.5))
-# 	model.add(Dense(64, activation='sigmoid', name='dense_3',kernel_initializer='VarianceScaling'))
-# 	model.add(Dropout(0.5))
-# 	model.add(Dense(32, activation='sigmoid', name='dense_4',kernel_initializer='VarianceScaling'))
-# 	model.add(Dense(len(emotions), activation='softmax',trainable=trainable,name='dense_55'))
-
-# 	sgd = SGD(lr=learn_rate, decay=0, momentum=0.9, nesterov=False)
-
-# 	model.compile(loss='categorical_crossentropy',
-# 	              optimizer=sgd,
-# 	              metrics=['accuracy'])
-
-# 	train_size,_,_ = total_number('train','M',emotions,size_batch,frame_number)
-# 	validation_size,_,_ = total_number('test','M',emotions,size_batch,frame_number)
-# 	test_size,_,_ = total_number('test','M',emotions,size_batch,frame_number)
-
-# 	#print("\nsize of train "+str(train_size)+"\n")
-# 	#print("size of test_size "+str(test_size)+"\n")
-
-# 	train_generator = dataset_generator(size_batch,'train','M',emotions,frame_number)
-# 	validation_generator = dataset_generator(size_batch,'validation','M',emotions,frame_number)
-# 	test_generator = dataset_generator(size_batch,'test','M',emotions,frame_number)
-
-
-
-# 	model.fit_generator(train_generator, steps_per_epoch=train_size, epochs=200,shuffle=True,  use_multiprocessing =True, workers = 7 )
-
-# 	pred = model.predict_generator( test_generator, steps=test_size)
-# 	#print(pred)
-# 	print(numpy.sum(pred > 0.25,axis=0))
-# 	print(model.evaluate_generator( test_generator, steps=test_size))
-# 	print("learning rate= %f" % (learn_rate))
 	
 											
 for activation in activations:
