@@ -74,7 +74,7 @@ def data():
 
 	return X_train, X_test, y_train, y_test
 
-def model(X_train, X_test, y_train, y_test):
+def model(X_train, X_test, y_train, y_test, batch_size, layer1, dropout, learn_rate):
 	frame_number = 50
 	nb_feat = 33
 	nb_class = 4
@@ -82,17 +82,18 @@ def model(X_train, X_test, y_train, y_test):
 
 	model = Sequential()
 	# model.add(Embedding(max_features, 128, input_length=maxlen))
-	model.add(LSTM(128, return_sequences = True, input_shape=(frame_number, nb_feat)))
+	model.add(LSTM(layer1, return_sequences = True, input_shape=(frame_number, nb_feat)))
 	model.add(Activation('tanh'))
-	model.add(LSTM(128, return_sequences = False))
+	model.add(LSTM(layer1, return_sequences = False))
 	model.add(Activation('tanh'))
 	model.add(Dense(256))
-	model.add(Dropout(0.2))
+	model.add(Dropout(dropout))
 	model.add(Activation('tanh'))
 	model.add(Dense(nb_class))
 	model.add(Activation('softmax'))
 	class_weight_dict = weight_class('train',emotions,'M')
-	model.compile(loss='categorical_crossentropy', optimizer='Adadelta', metrics=['accuracy'])
+	myOptimizer = keras.optimizers.Adam(lr=learn_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+	model.compile(loss='categorical_crossentropy', optimizer=myOptimizer, metrics=['accuracy'])
 
 
 	early_stopping = EarlyStopping(monitor='val_loss', patience=4)
@@ -100,9 +101,11 @@ def model(X_train, X_test, y_train, y_test):
 								   verbose=1,
 								   save_best_only=True)
 
+
+
 	model.fit(X_train, y_train,
-			  batch_size=64,
-			  nb_epoch=1,
+			  batch_size=batch_size,
+			  nb_epoch=5,
 			  validation_split=0.08,
 			  callbacks=[early_stopping, checkpointer])
 
@@ -112,4 +115,17 @@ def model(X_train, X_test, y_train, y_test):
 
 	return model, acc, score
 X_train, X_test, y_train, y_test = data()
-model , acc, score = model(X_train, X_test, y_train, y_test)
+batch_sizes = [16, 32, 64, 128, 256]
+learn_rates = [0.00001, 0.0001, 0.001, 0.01, 0.1, 0.2]
+dropout_rates = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+hidden1_neurons = [128, 256, 512]
+results = []
+for learn_rate in learn_rates:
+	for batch_size in batch_sizes:
+		for dropout_rate in dropout_rates:
+			for hidden1_neuron in hidden1_neurons:
+
+				model, acc, score = model(X_train, X_test, y_train, y_test, batch_size, hidden1_neuron, dropout_rate, learn_rate)
+				aa = 'Lr ' + learn_rate + ' batchsize: ' + batch_size + 'hidden '+ hidden1_neuron
+				result.append(aa)
+				print (aa)
