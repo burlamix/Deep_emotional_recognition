@@ -97,7 +97,7 @@ def model(X_train, X_test, y_train, y_test, batch_size, layer1, dropout, learn_r
 
 
 	early_stopping = EarlyStopping(monitor='val_loss', patience=4)
-	checkpointer = ModelCheckpoint(filepath='keras_weights.hdf5',
+	checkpointer = ModelCheckpoint(filepath='results/weights.{epoch:02d}-{val_loss:.2f}.hdf5',
 								   verbose=1,
 								   save_best_only=True)
 
@@ -115,9 +115,9 @@ def model(X_train, X_test, y_train, y_test, batch_size, layer1, dropout, learn_r
 
 	return model, acc, score
 X_train, X_test, y_train, y_test = data()
-batch_sizes = [16, 32, 64, 128, 256]
+batch_sizes = [32, 64, 128, 256]
 learn_rates = [0.00001, 0.0001, 0.001, 0.01, 0.1, 0.2]
-dropout_rates = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+dropout_rates = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
 hidden1_neurons = [128, 256, 512]
 results = []
 for learn_rate in learn_rates:
