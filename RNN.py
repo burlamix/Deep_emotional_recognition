@@ -74,7 +74,7 @@ def data():
 
 	return X_train, X_test, y_train, y_test
 
-def model(X_train, X_test, y_train, y_test, batch_size, layer1, dropout, learn_rate):
+def startmodel(X_train, X_test, y_train, y_test, batch_size, layer1, dropout, learn_rate):
 	frame_number = 50
 	nb_feat = 33
 	nb_class = 4
@@ -131,7 +131,7 @@ for learn_rate in learn_rates:
 				else:
 					print('file already exists, skipping')
 					continue
-				model, acc, score = model(X_train, X_test, y_train, y_test, batch_size, hidden1_neuron, dropout_rate, learn_rate)
+				model, acc, score = startmodel(X_train, X_test, y_train, y_test, batch_size, hidden1_neuron, dropout_rate, learn_rate)
 				
-				result.append(aa)
+				results.append(aa)
 				print (aa)
