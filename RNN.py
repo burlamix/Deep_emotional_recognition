@@ -105,7 +105,7 @@ def startmodel(X_train, X_test, y_train, y_test, batch_size, layer1, dropout, le
 
 	model.fit(X_train, y_train,
 			  batch_size=batch_size,
-			  nb_epoch=5,
+			  nb_epoch=5, class_weight = class_weight_dict,
 			  validation_split=0.08,
 			  callbacks=[early_stopping, checkpointer])
 
@@ -115,19 +115,21 @@ def startmodel(X_train, X_test, y_train, y_test, batch_size, layer1, dropout, le
 
 	return model, acc, score
 X_train, X_test, y_train, y_test = data()
+# batch_sizes = [32, 64, 128, 256]
+# learn_rates = [0.00001, 0.0001, 0.001, 0.01, 0.1, 0.2]
+# dropout_rates = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
+# hidden1_neurons = [128, 256, 512]
 batch_sizes = [32, 64, 128, 256]
-learn_rates = [0.00001, 0.0001, 0.001, 0.01, 0.1, 0.2]
-dropout_rates = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
-hidden1_neurons = [128, 256, 512]
+learn_rates = [0.0001, 0.001, 0.01, 0.1, 0.2]
+dropout_rates = [0.2, 0.3, 0.4]
+hidden1_neurons = [512]
 results = []
 skipCount = 2
-for learn_rate in learn_rates:
-	for batch_size in batch_sizes:
-		for dropout_rate in dropout_rates:
+for dropout_rate in dropout_rates:
+	for learn_rate in learn_rates:
+		for batch_size in batch_sizes:
 			for hidden1_neuron in hidden1_neurons:
-				if skipCount != 0:
-					skipCount += -1
-					continue
+				
 				aa = 'Lr ' + str(learn_rate) + ' batchsize: ' + str(batch_size) + 'hidden '+ str(hidden1_neuron)
 				fname = os.getcwd()+'/results/' + aa + '.hfd5'
 				print('Checking for ', fname)
@@ -137,6 +139,8 @@ for learn_rate in learn_rates:
 					print('file already exists, skipping')
 					continue
 				model, acc, score = startmodel(X_train, X_test, y_train, y_test, batch_size, hidden1_neuron, dropout_rate, learn_rate)
-				
+				if skipCount != 0:
+					skipCount += -1
+					continue
 				results.append(aa)
 				print (aa)
