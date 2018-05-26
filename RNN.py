@@ -129,7 +129,7 @@ for learn_rate in learn_rates:
 					skipCount += -1
 					continue
 				aa = 'Lr ' + str(learn_rate) + ' batchsize: ' + str(batch_size) + 'hidden '+ str(hidden1_neuron)
-				fname = 'results/' + aa + '.hfd5'
+				fname = os.getcwd()+'/results/' + aa + '.hfd5'
 				print('Checking for ', fname)
 				if os.path.isfile(fname) == False:
 					print('file doesnt exist')
