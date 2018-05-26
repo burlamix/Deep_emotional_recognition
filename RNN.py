@@ -97,7 +97,7 @@ def model(X_train, X_test, y_train, y_test, batch_size, layer1, dropout, learn_r
 
 
 	early_stopping = EarlyStopping(monitor='val_loss', patience=4)
-	checkpointer = ModelCheckpoint(filepath='results/weights.{epoch:02d}-{val_loss:.2f}.hdf5',
+	checkpointer = ModelCheckpoint(filepath='results/Lr ' + str(learn_rate) + ' batchsize: ' + str(batch_size) + 'hidden '+ str(hidden1_neuron) + '.hdf5',
 								   verbose=1,
 								   save_best_only=True)
 
@@ -124,8 +124,14 @@ for learn_rate in learn_rates:
 	for batch_size in batch_sizes:
 		for dropout_rate in dropout_rates:
 			for hidden1_neuron in hidden1_neurons:
-
+				aa = 'Lr ' + str(learn_rate) + ' batchsize: ' + str(batch_size) + 'hidden '+ str(hidden1_neuron)
+				fname = 'results/' + aa + '.hfd5'
+				if os.path.isfile(fname):
+					print('file doesnt exist')
+				else:
+					print('file already exists, skipping')
+					continue
 				model, acc, score = model(X_train, X_test, y_train, y_test, batch_size, hidden1_neuron, dropout_rate, learn_rate)
-				aa = 'Lr ' + learn_rate + ' batchsize: ' + batch_size + 'hidden '+ hidden1_neuron
+				
 				result.append(aa)
 				print (aa)
