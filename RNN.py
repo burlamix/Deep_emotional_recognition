@@ -120,12 +120,17 @@ learn_rates = [0.00001, 0.0001, 0.001, 0.01, 0.1, 0.2]
 dropout_rates = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
 hidden1_neurons = [128, 256, 512]
 results = []
+skipCount = 2
 for learn_rate in learn_rates:
 	for batch_size in batch_sizes:
 		for dropout_rate in dropout_rates:
 			for hidden1_neuron in hidden1_neurons:
+				if skipCount != 0:
+					skipCount += -1
+					continue
 				aa = 'Lr ' + str(learn_rate) + ' batchsize: ' + str(batch_size) + 'hidden '+ str(hidden1_neuron)
 				fname = 'results/' + aa + '.hfd5'
+				print('Checking for ', fname)
 				if os.path.isfile(fname) == False:
 					print('file doesnt exist')
 				else:
