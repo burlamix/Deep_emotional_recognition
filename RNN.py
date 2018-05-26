@@ -126,7 +126,7 @@ for learn_rate in learn_rates:
 			for hidden1_neuron in hidden1_neurons:
 				aa = 'Lr ' + str(learn_rate) + ' batchsize: ' + str(batch_size) + 'hidden '+ str(hidden1_neuron)
 				fname = 'results/' + aa + '.hfd5'
-				if os.path.isfile(fname):
+				if os.path.isfile(fname) == False:
 					print('file doesnt exist')
 				else:
 					print('file already exists, skipping')
