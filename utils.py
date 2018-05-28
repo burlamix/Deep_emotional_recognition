@@ -1,8 +1,8 @@
 import csv
 import numpy as np
 import numpy
-import tkinter
-from matplotlib import pyplot as plt
+#import tkinter
+#from matplotlib import pyplot as plt
 import keras
 
 import os
@@ -19,7 +19,7 @@ class PlotLosses(keras.callbacks.Callback):
         self.losses = []
         self.val_losses = []
         
-        self.fig = plt.figure()
+        #self.fig = plt.figure()
         
         self.logs = []
 
