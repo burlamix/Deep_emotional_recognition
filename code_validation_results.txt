@@ -1,0 +1,1 @@
+activation= sigmoid, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f2d945c7240>, batch size = 32, epoch= 100, learning rate= 0.001000
