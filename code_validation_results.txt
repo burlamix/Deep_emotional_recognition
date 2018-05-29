@@ -1,1 +1,13 @@
-activation= sigmoid, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f2d945c7240>, batch size = 32, epoch= 100, learning rate= 0.001000
+
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fe61a4ae240>, batch size = 32, epoch= 2, learning rate= 0.000050number of hidden1 neurons: 500, number of hidden2 neurons: 500, number of hidden3 neurons: 500, number of hidden4 neurons: 500
+   ---training---[893 419]
+   ---training---[ 231 1081]
+   ---test---  [160 414][7.60976287276072, 0.5278745644599303]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fe614200198>, batch size = 32, epoch= 2, learning rate= 0.000050number of hidden1 neurons: 256, number of hidden2 neurons: 256, number of hidden3 neurons: 256, number of hidden4 neurons: 256
+   ---training---[ 190 1122]
+   ---training---[ 198 1114]
+   ---test---  [ 88 486][8.171368980033888, 0.4930313588850174]

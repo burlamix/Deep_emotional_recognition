@@ -34,15 +34,16 @@ x = tf.keras.utils.normalize(x,    axis=-1,    order=2)
 #batch_sizes = [16, 32, 64, 128, 256]
 batch_sizes = [32]
 #epochs = [10, 50, 100]
-epochs = [100]
+epochs = [2]
 #optimizers = [sgd, rmsdrop, adagrad, adadelta, adam, adamax, nadam]
 #learn_rates = [0.00001, 0.0001, 0.001, 0.01, 0.1, 0.2]
-learn_rates = [1e-3,1e-5,1e-7,1e-9,1e-12]
+#learn_rates = [0.0001,0.00005,0.00001,0.000005,0.000001]
+learn_rates = [0.00005]
 #activations = ['softmax', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear']
-activations = ['sigmoid','relu']
+activations = ['relu']
 #dropout_rates = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
-dropout_rates = [0.5,0]
-hidden_neurons = [[500,500,500,500],[256,256,256,256], [500,256,128,64], [32,16,8,4],[8,8,4,4]]
+dropout_rates = [0.5]
+hidden_neurons = [[500,500,500,500],[256,256,256,256]]#, [500,256,128,64],[256,64,32,16], [256,128,64,32], [32,16,8,4]]
 #hidden1_neurons = [16, 32, 64, 128, 256]
 #hidden2_neurons = [16, 32, 64, 128, 256]
 #hidden3_neurons = [16, 32, 64, 128, 256]
@@ -88,21 +89,21 @@ for activation in activations:
 							              metrics=['accuracy'])
 
 							with open("code_validation_results.txt", 'a') as outputFile:
-								outputFile.write("activation= %s, dropout= %f, optimizer= %s, batch size = %d, epoch= %d, learning rate= %f" % (activation, dropout, optimizer, batchSize, epoch, learn_rate))
-								outputFile.write("number of hidden1 neurons: %d, number of hidden2 neurons: %d, number of hidden3 neurons: %d, number of hidden4 neurons: %d" % (hidden1, hidden2, hidden3, hidden4))
+								outputFile.write("\n\n\nactivation= %s, dropout= %f, optimizer= %s, batch size = %d, epoch= %d, learning rate= %f" % (activation, dropout, optimizer, batchSize, epoch, learn_rate))
+								outputFile.write("number of hidden1 neurons: %d, number of hidden2 neurons: %d, number of hidden3 neurons: %d, number of hidden4 neurons: %d" % (hidden[0], hidden[1], hidden[2], hidden[3]))
 								#model.save_weights("weights")
 								outputFile.write("\n   ---training---")
-								outputFile.write(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
+								outputFile.write(str(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0)))
 
 
 							model.fit(x=x,y=y,batch_size=batchSize, epochs=epoch,shuffle=True,class_weight=class_weight_dict)
 
 							with open("code_validation_results.txt", 'a') as outputFile:
 								outputFile.write("\n   ---training---")
-								outputFile.write(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
+								outputFile.write(str(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0)))
 
 								outputFile.write("\n   ---test---  ")
-								outputFile.write(numpy.sum(model.predict(x=x_test,batch_size=1)> 1/len(emotions),axis=0))
-								outputFile.write(model.evaluate(x=x_test,y=y_test,batch_size=1))
+								outputFile.write(str(numpy.sum(model.predict(x=x_test,batch_size=1)> 1/len(emotions),axis=0)))
+								outputFile.write(str(model.evaluate(x=x_test,y=y_test,batch_size=1)))
 
 
