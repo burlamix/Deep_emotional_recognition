@@ -49,7 +49,7 @@ model.add(Dense(len(emotions), activation='softmax',name='dense_f'))
 
 
 #optimizer
-adam =keras.optimizers.Adam(lr=1e-2, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+adam =keras.optimizers.Adam(lr=1e-4, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 
 model.compile(loss='categorical_crossentropy',
@@ -102,7 +102,7 @@ y_test = numpy.array(y_test)
 print("\n   ---training---")
 print(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
 
-model.fit(x=x,y=y,batch_size=size_batch2, epochs=100,shuffle=True,class_weight=class_weight_dict,validation_data=(x_v, y_v),callbacks=[plot_losses])
+model.fit(x=x,y=y,batch_size=size_batch2, epochs=500,shuffle=True,class_weight=class_weight_dict,validation_data=(x_v, y_v),callbacks=[plot_losses])
 
 print("\n   ---training---")
 print(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
