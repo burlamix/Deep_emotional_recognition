@@ -123,7 +123,7 @@ def static_dataset(folder,gender,emotion,frame_number,equal_size=False):
 	for i in range(0,len(class_weight)):
 		class_weight_dict.update({i:class_weight[i]})
 
-
+	print('finished data')
 	return numpy.array(new_x),numpy.array(new_y),class_weight
 
 
