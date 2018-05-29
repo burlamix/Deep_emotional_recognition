@@ -35,9 +35,9 @@ model.add(Dense(256, activation='relu', input_dim=frame_number*33, name='dense_1
 model.add(Dropout(0.5))
 model.add(Dense(256, activation='relu', name='dense_2',kernel_initializer='glorot_uniform'))
 model.add(Dropout(0.5))
-model.add(Dense(256, activation='relu', name='dense_3',kernel_initializer='glorot_uniform'))
+model.add(Dense(128, activation='relu', name='dense_3',kernel_initializer='glorot_uniform'))
 model.add(Dropout(0.5))
-model.add(Dense(256, activation='relu', name='dense_4',kernel_initializer='glorot_uniform'))
+model.add(Dense(64, activation='relu', name='dense_4',kernel_initializer='glorot_uniform'))
 #model.add(Dropout(0.5))
 #model.add(Dense(100, activation='sigmoid', trainable=trainable,name='dense_5'))
 #model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_6'))
@@ -49,7 +49,7 @@ model.add(Dense(len(emotions), activation='softmax',name='dense_f'))
 
 
 #optimizer
-adam =keras.optimizers.Adam(lr=1e-5, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+adam =keras.optimizers.Adam(lr=1e-6, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 
 model.compile(loss='categorical_crossentropy',
