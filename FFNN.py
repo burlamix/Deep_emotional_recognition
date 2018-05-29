@@ -30,14 +30,14 @@ frame_number = 50
 
 
 model = Sequential()
-model.add(Dense(1000, activation='relu', input_dim=frame_number*33, name='dense_1',kernel_initializer='glorot_uniform'))
+model.add(Dense(1000, activation='relu', input_dim=frame_number*33, name='dense_1',kernel_regularizer=regularizers.l1_l2(0.01),kernel_initializer='glorot_uniform'))
 #model.add(BatchNormalization())
 model.add(Dropout(0.5))
-model.add(Dense(500, activation='relu', name='dense_2',kernel_initializer='glorot_uniform'))
+model.add(Dense(500, activation='relu', name='dense_2',kernel_regularizer=regularizers.l1_l2(0.01),kernel_initializer='glorot_uniform'))
 model.add(Dropout(0.5))
-model.add(Dense(250, activation='relu', name='dense_3',kernel_initializer='glorot_uniform'))
+model.add(Dense(250, activation='relu', name='dense_3',kernel_regularizer=regularizers.l1_l2(0.01),kernel_initializer='glorot_uniform'))
 model.add(Dropout(0.5))
-model.add(Dense(100, activation='relu', name='dense_4',kernel_initializer='glorot_uniform'))
+model.add(Dense(100, activation='relu', name='dense_4',kernel_regularizer=regularizers.l1_l2(0.01),kernel_initializer='glorot_uniform'))
 #model.add(Dropout(0.5))
 #model.add(Dense(100, activation='sigmoid', trainable=trainable,name='dense_5'))
 #model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_6'))
