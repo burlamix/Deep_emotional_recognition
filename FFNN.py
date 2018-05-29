@@ -26,7 +26,7 @@ trainable = 'True'
 #emotions = ['ang','dis','exc','fea','fru','hap','neu','oth','sad','sur','xxx']
 emotions = ['hap','sad']#,'ang','exc']
 size_batch2 = 32
-frame_number = 100
+frame_number = 50
 
 
 model = Sequential()
@@ -49,7 +49,7 @@ model.add(Dense(len(emotions), activation='softmax',name='dense_f'))
 
 
 #optimizer
-adam =keras.optimizers.Adam(lr=1e-4, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+adam =keras.optimizers.Adam(lr=1e-2, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 
 model.compile(loss='categorical_crossentropy',
