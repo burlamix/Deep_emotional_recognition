@@ -10,6 +10,7 @@ from utils import weight_class
 from utils import static_dataset
 from utils import PlotLosses
 
+print("library imported")
 
 plot_losses = PlotLosses()
 
@@ -35,8 +36,8 @@ model.add(Dropout(0.5))
 model.add(Dense(256, activation='relu', name='dense_2',kernel_initializer='glorot_uniform'))
 model.add(Dropout(0.5))
 model.add(Dense(256, activation='relu', name='dense_3',kernel_initializer='glorot_uniform'))
-#model.add(Dropout(0.5))
-#model.add(Dense(256, activation='sigmoid', name='dense_4',kernel_initializer='glorot_uniform'))
+model.add(Dropout(0.5))
+model.add(Dense(256, activation='relu', name='dense_4',kernel_initializer='glorot_uniform'))
 #model.add(Dropout(0.5))
 #model.add(Dense(100, activation='sigmoid', trainable=trainable,name='dense_5'))
 #model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_6'))
@@ -74,7 +75,7 @@ model.compile(loss='categorical_crossentropy',
 
 x,y,class_weight_dict = static_dataset('train','M',emotions,frame_number)
 #random
-x = numpy.random.random((int(1312), frame_number*33))
+#x = numpy.random.random((int(1312), frame_number*33))
 
 
 x_test,y_test,class_weight_dict_test = static_dataset('test','M',emotions,frame_number)
