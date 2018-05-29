@@ -34,15 +34,15 @@ x = tf.keras.utils.normalize(x,    axis=-1,    order=2)
 #batch_sizes = [16, 32, 64, 128, 256]
 batch_sizes = [32]
 #epochs = [10, 50, 100]
-epochs = [500]
+epochs = [100]
 #optimizers = [sgd, rmsdrop, adagrad, adadelta, adam, adamax, nadam]
 #learn_rates = [0.00001, 0.0001, 0.001, 0.01, 0.1, 0.2]
-learn_rates = [1e-5]
+learn_rates = [1e-2,1e-3,1e-5,1e-7,1e-9,1e-12]
 #activations = ['softmax', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear']
-activations = ['sigmoid']
+activations = ['sigmoid','relu']
 #dropout_rates = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
-dropout_rates = [0.5]
-hidden_neurons = [[16,32,16,128], [32,32,32,128], [64,64,128,128]]
+dropout_rates = [0.5,0]
+hidden_neurons = [[256,256,256,256], [500,256,128,64], [32,16,8,4],[8,8,4,4]]
 #hidden1_neurons = [16, 32, 64, 128, 256]
 #hidden2_neurons = [16, 32, 64, 128, 256]
 #hidden3_neurons = [16, 32, 64, 128, 256]
@@ -64,13 +64,13 @@ for activation in activations:
 			model.add(Dense(len(emotions), activation='softmax',name='dense_f'))
 
 			for learn_rate in learn_rates:
-				sgd = SGD(lr=learn_rate, decay=1e-6, momentum=0.9, nesterov=False)
-				rmsdrop = keras.optimizers.RMSprop(lr=learn_rate, rho=0.9, epsilon=None, decay=0.0)
-				adagrad = keras.optimizers.Adagrad(lr=learn_rate, epsilon=None, decay=0.0)
-				adadelta = keras.optimizers.Adadelta(lr=learn_rate, rho=0.95, epsilon=None, decay=0.0)
+				#sgd = SGD(lr=learn_rate, decay=1e-6, momentum=0.9, nesterov=False)
+				#rmsdrop = keras.optimizers.RMSprop(lr=learn_rate, rho=0.9, epsilon=None, decay=0.0)
+				#adagrad = keras.optimizers.Adagrad(lr=learn_rate, epsilon=None, decay=0.0)
+				#adadelta = keras.optimizers.Adadelta(lr=learn_rate, rho=0.95, epsilon=None, decay=0.0)
 				adam =keras.optimizers.Adam(lr=learn_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
-				adamax = keras.optimizers.Adamax(lr=learn_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0)
-				nadam = keras.optimizers.Nadam(lr=learn_rate, beta_1=0.9, beta_2=0.999, epsilon=None, schedule_decay=0.004)
+				#adamax = keras.optimizers.Adamax(lr=learn_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0)
+				#nadam = keras.optimizers.Nadam(lr=learn_rate, beta_1=0.9, beta_2=0.999, epsilon=None, schedule_decay=0.004)
 
 				#optimizers = [sgd, rmsdrop, adagrad, adadelta, adam, adamax, nadam]
 				optimizers = [adam]

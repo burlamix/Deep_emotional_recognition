@@ -9,8 +9,6 @@ from utils import total_number
 from utils import weight_class
 from utils import static_dataset
 from utils import PlotLosses
-from sklearn.metrics import confusion_matrix
-from keras.layers.normalization import BatchNormalization
 
 
 plot_losses = PlotLosses()
@@ -25,18 +23,18 @@ trainable = 'True'
  #numpy.random.seed(6)
 
 #emotions = ['ang','dis','exc','fea','fru','hap','neu','oth','sad','sur','xxx']
-emotions = ['hap','sad','ang','exc']
+emotions = ['hap','sad']#,'ang','exc']
 size_batch2 = 32
 frame_number = 100
 
 
 model = Sequential()
-model.add(Dense(64, activation='sigmoid', input_dim=frame_number*33, name='dense_1',kernel_initializer='glorot_uniform'))
+model.add(Dense(256, activation='relu', input_dim=frame_number*33, name='dense_1',kernel_initializer='glorot_uniform'))
 #model.add(BatchNormalization())
 model.add(Dropout(0.5))
-model.add(Dense(32, activation='sigmoid', name='dense_2',kernel_initializer='glorot_uniform'))
+model.add(Dense(256, activation='relu', name='dense_2',kernel_initializer='glorot_uniform'))
 model.add(Dropout(0.5))
-model.add(Dense(16, activation='sigmoid', name='dense_3',kernel_initializer='glorot_uniform'))
+model.add(Dense(256, activation='relu', name='dense_3',kernel_initializer='glorot_uniform'))
 #model.add(Dropout(0.5))
 #model.add(Dense(256, activation='sigmoid', name='dense_4',kernel_initializer='glorot_uniform'))
 #model.add(Dropout(0.5))
@@ -75,6 +73,10 @@ model.compile(loss='categorical_crossentropy',
 
 
 x,y,class_weight_dict = static_dataset('train','M',emotions,frame_number)
+#random
+x = numpy.random.random((int(1312), frame_number*33))
+
+
 x_test,y_test,class_weight_dict_test = static_dataset('test','M',emotions,frame_number)
 x_v,y_v,_ = static_dataset('validation','M',emotions,frame_number)
 
@@ -99,7 +101,7 @@ y_test = numpy.array(y_test)
 print("\n   ---training---")
 print(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
 
-model.fit(x=x,y=y,batch_size=size_batch2, epochs=500,shuffle=True,class_weight=class_weight_dict,validation_data=(x_v, y_v),callbacks=[plot_losses])
+model.fit(x=x,y=y,batch_size=size_batch2, epochs=100,shuffle=True,class_weight=class_weight_dict,validation_data=(x_v, y_v),callbacks=[plot_losses])
 
 print("\n   ---training---")
 print(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
