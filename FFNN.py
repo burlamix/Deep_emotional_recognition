@@ -102,7 +102,7 @@ y_test = numpy.array(y_test)
 print("\n   ---training---")
 print(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
 
-model.fit(x=x,y=y,batch_size=size_batch2, epochs=200,shuffle=True,class_weight=class_weight_dict,validation_data=(x_v, y_v),callbacks=[plot_losses])
+model.fit(x=x,y=y,batch_size=size_batch2, epochs=600,shuffle=True,class_weight=class_weight_dict,validation_data=(x_v, y_v),callbacks=[plot_losses])
 
 print("\n   ---training---")
 print(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
