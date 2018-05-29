@@ -24,20 +24,20 @@ trainable = 'True'
  #numpy.random.seed(6)
 
 #emotions = ['ang','dis','exc','fea','fru','hap','neu','oth','sad','sur','xxx']
-emotions = ['hap','sad']#,'ang','exc']
+emotions = ['hap','sad','ang','exc']
 size_batch2 = 32
 frame_number = 50
 
 
 model = Sequential()
-model.add(Dense(500, activation='relu', input_dim=frame_number*33, name='dense_1',kernel_initializer='glorot_uniform'))
+model.add(Dense(256, activation='relu', input_dim=frame_number*33, name='dense_1',kernel_initializer='glorot_uniform'))
 #model.add(BatchNormalization())
 model.add(Dropout(0.5))
-model.add(Dense(500, activation='relu', name='dense_2',kernel_initializer='glorot_uniform'))
+model.add(Dense(128, activation='relu', name='dense_2',kernel_initializer='glorot_uniform'))
 model.add(Dropout(0.5))
-model.add(Dense(256, activation='relu', name='dense_3',kernel_initializer='glorot_uniform'))
+model.add(Dense(64, activation='relu', name='dense_3',kernel_initializer='glorot_uniform'))
 model.add(Dropout(0.5))
-model.add(Dense(256, activation='relu', name='dense_4',kernel_initializer='glorot_uniform'))
+model.add(Dense(32, activation='relu', name='dense_4',kernel_initializer='glorot_uniform'))
 #model.add(Dropout(0.5))
 #model.add(Dense(100, activation='sigmoid', trainable=trainable,name='dense_5'))
 #model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_6'))
@@ -49,7 +49,7 @@ model.add(Dense(len(emotions), activation='softmax',name='dense_f'))
 
 
 #optimizer
-adam =keras.optimizers.Adam(lr=1e-3, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+adam =keras.optimizers.Adam(lr=1e-4, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 
 model.compile(loss='categorical_crossentropy',
