@@ -4,7 +4,6 @@ import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import SGD
-from keras import regularizers
 from utils import dataset_generator
 from utils import total_number
 from utils import weight_class
@@ -31,14 +30,14 @@ frame_number = 50
 
 
 model = Sequential()
-model.add(Dense(1000, activation='relu', input_dim=frame_number*33, name='dense_1',kernel_regularizer=regularizers.l1_l2(0.01),kernel_initializer='glorot_uniform'))
+model.add(Dense(2000, activation='relu', input_dim=frame_number*33, name='dense_1',kernel_initializer='glorot_uniform'))
 #model.add(BatchNormalization())
 model.add(Dropout(0.5))
-model.add(Dense(500, activation='relu', name='dense_2',kernel_regularizer=regularizers.l1_l2(0.01),kernel_initializer='glorot_uniform'))
+model.add(Dense(1000, activation='relu', name='dense_2',kernel_initializer='glorot_uniform'))
 model.add(Dropout(0.5))
-model.add(Dense(250, activation='relu', name='dense_3',kernel_regularizer=regularizers.l1_l2(0.01),kernel_initializer='glorot_uniform'))
+model.add(Dense(500, activation='relu', name='dense_3',kernel_initializer='glorot_uniform'))
 model.add(Dropout(0.5))
-model.add(Dense(100, activation='relu', name='dense_4',kernel_regularizer=regularizers.l1_l2(0.01),kernel_initializer='glorot_uniform'))
+model.add(Dense(250, activation='relu', name='dense_4',kernel_initializer='glorot_uniform'))
 #model.add(Dropout(0.5))
 #model.add(Dense(100, activation='sigmoid', trainable=trainable,name='dense_5'))
 #model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_6'))
@@ -103,7 +102,7 @@ y_test = numpy.array(y_test)
 print("\n   ---training---")
 print(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
 
-model.fit(x=x,y=y,batch_size=size_batch2, epochs=600,shuffle=True,class_weight=class_weight_dict,validation_data=(x_v, y_v),callbacks=[plot_losses])
+model.fit(x=x,y=y,batch_size=size_batch2, epochs=100,shuffle=True,class_weight=class_weight_dict,validation_data=(x_v, y_v),callbacks=[plot_losses])
 
 print("\n   ---training---")
 print(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
