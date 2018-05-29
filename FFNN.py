@@ -4,6 +4,7 @@ import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import SGD
+from keras import regularizers
 from utils import dataset_generator
 from utils import total_number
 from utils import weight_class
