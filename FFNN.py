@@ -30,7 +30,7 @@ size_batch2 = 32
 frame_number = 50
 regu = 0.000000000
 bias = True
-epoc= 100
+epoc= 1000
 
 model = Sequential()
 model.add(Dense(250, activation='relu', input_dim=frame_number*33, name='dense_1',
