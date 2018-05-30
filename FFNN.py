@@ -4,12 +4,13 @@ import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import SGD
+from keras import regularizers
+
 from utils import dataset_generator
 from utils import total_number
 from utils import weight_class
 from utils import static_dataset
 from utils import PlotLosses
-
 print("library imported")
 
 plot_losses = PlotLosses()
@@ -27,17 +28,26 @@ trainable = 'True'
 emotions = ['hap','ang']#,'ang','exc']
 size_batch2 = 32
 frame_number = 50
-
+regu = 0.000000000
+bias = True
+epoc= 300
 
 model = Sequential()
-model.add(Dense(1000, activation='relu', input_dim=frame_number*33, name='dense_1',kernel_initializer='glorot_uniform'))
+model.add(Dense(200, activation='relu', input_dim=frame_number*33, name='dense_1',
+	kernel_initializer='glorot_uniform',use_bias=bias,bias_initializer="zeros",kernel_regularizer=regularizers.l1_l2(regu,regu)))
 #model.add(BatchNormalization())
 model.add(Dropout(0.5))
-model.add(Dense(500, activation='relu', name='dense_2',kernel_initializer='glorot_uniform'))
+
+model.add(Dense(100, activation='relu', name='dense_2',
+	kernel_initializer='glorot_uniform',use_bias=bias,bias_initializer="zeros",kernel_regularizer=regularizers.l1_l2(regu,regu)))
 model.add(Dropout(0.5))
-model.add(Dense(250, activation='relu', name='dense_3',kernel_initializer='glorot_uniform'))
+
+model.add(Dense(50, activation='relu', name='dense_3',
+	kernel_initializer='glorot_uniform',use_bias=bias,bias_initializer="zeros",kernel_regularizer=regularizers.l1_l2(regu,regu)))
 model.add(Dropout(0.5))
-model.add(Dense(100, activation='relu', name='dense_4',kernel_initializer='glorot_uniform'))
+
+model.add(Dense(25, activation='relu', name='dense_4',
+	kernel_initializer='glorot_uniform',use_bias=bias,bias_initializer="zeros",kernel_regularizer=regularizers.l1_l2(regu,regu)))
 #model.add(Dropout(0.5))
 #model.add(Dense(100, activation='sigmoid', trainable=trainable,name='dense_5'))
 #model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_6'))
@@ -49,7 +59,7 @@ model.add(Dense(len(emotions), activation='softmax',name='dense_f'))
 
 
 #optimizer
-adam =keras.optimizers.Adam(lr=1e-5, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+adam =keras.optimizers.Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 
 model.compile(loss='categorical_crossentropy',
@@ -102,7 +112,7 @@ y_test = numpy.array(y_test)
 print("\n   ---training---")
 print(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
 
-model.fit(x=x,y=y,batch_size=size_batch2, epochs=100,shuffle=True,class_weight=class_weight_dict,validation_data=(x_v, y_v),callbacks=[plot_losses])
+model.fit(x=x,y=y,batch_size=size_batch2, epochs=epoc,shuffle=True,class_weight=class_weight_dict,validation_data=(x_v, y_v),callbacks=[plot_losses])
 
 print("\n   ---training---")
 print(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
