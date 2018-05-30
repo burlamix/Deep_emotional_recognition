@@ -30,40 +30,35 @@ size_batch2 = 32
 frame_number = 50
 regu = 0.000000000
 bias = True
-epoc= 300
+epoc= 100
 
 model = Sequential()
-model.add(Dense(200, activation='relu', input_dim=frame_number*33, name='dense_1',
+model.add(Dense(250, activation='relu', input_dim=frame_number*33, name='dense_1',
 	kernel_initializer='glorot_uniform',use_bias=bias,bias_initializer="zeros",kernel_regularizer=regularizers.l1_l2(regu,regu)))
 #model.add(BatchNormalization())
 model.add(Dropout(0.5))
 
-model.add(Dense(100, activation='relu', name='dense_2',
+model.add(Dense(250, activation='relu', name='dense_2',
 	kernel_initializer='glorot_uniform',use_bias=bias,bias_initializer="zeros",kernel_regularizer=regularizers.l1_l2(regu,regu)))
 model.add(Dropout(0.5))
 
-model.add(Dense(50, activation='relu', name='dense_3',
+model.add(Dense(100, activation='relu', name='dense_3',
 	kernel_initializer='glorot_uniform',use_bias=bias,bias_initializer="zeros",kernel_regularizer=regularizers.l1_l2(regu,regu)))
 model.add(Dropout(0.5))
 
-model.add(Dense(25, activation='relu', name='dense_4',
+model.add(Dense(100, activation='relu', name='dense_4',
 	kernel_initializer='glorot_uniform',use_bias=bias,bias_initializer="zeros",kernel_regularizer=regularizers.l1_l2(regu,regu)))
-#model.add(Dropout(0.5))
-#model.add(Dense(100, activation='sigmoid', trainable=trainable,name='dense_5'))
-#model.add(Dense(64, activation='sigmoid', trainable=trainable,name='dense_6'))
-#model.add(Dense(32, activation='sigmoid', trainable=trainable,name='dense_7'))
-#model.add(Dense(16, activation='sigmoid', trainable=trainable,name='dense_8'))
-#model.add(Dense(8, activation='sigmoid', trainable=trainable,name='dense_9'))
-#model.add(Dropout(0.5))
+
+
 model.add(Dense(len(emotions), activation='softmax',name='dense_f'))
 
 
 #optimizer
 adam =keras.optimizers.Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
-sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+sgd = SGD(lr=0.00001, decay=0, momentum=0.9, nesterov=True)
 
 model.compile(loss='categorical_crossentropy',
-              optimizer=adam,
+              optimizer=sgd,
               metrics=['accuracy'])
 
 
