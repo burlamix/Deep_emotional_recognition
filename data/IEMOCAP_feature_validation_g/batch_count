@@ -1,0 +1,23 @@
+"Number of 5-frame-batches of each emotion, differentiated by gender"
+ang_M,122
+dis_M,0
+exc_M,84
+fea_M,5
+fru_M,293
+hap_M,34
+neu_M,182
+oth_M,1
+sad_M,81
+sur_M,8
+xxx_M,306
+ang_F,205
+dis_F,0
+exc_F,154
+fea_F,2
+fru_F,188
+hap_F,31
+neu_F,76
+oth_F,0
+sad_F,62
+sur_F,11
+xxx_F,258

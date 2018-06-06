@@ -40,7 +40,7 @@ class PlotLosses(keras.callbacks.Callback):
 
 def Categorical_label(label,emotion):
 # define the function blocks
-	
+
 	hot_encoding = np.zeros(len(emotion))
 	hot_encoding[emotion.index(label)] = 1
 
@@ -77,7 +77,7 @@ def weight_class(file_name,emotion,gender):
 
 	return class_weight_dict
 
-def static_dataset(folder,gender,emotion,frame_number,equal_size=False):
+def static_dataset(folder,gender,emotion,frame_number,equal_size=True):
 
 	data_generator = dataset_generator(1,folder,gender,emotion,frame_number,stop=True)
 
@@ -102,19 +102,22 @@ def static_dataset(folder,gender,emotion,frame_number,equal_size=False):
 
 		except StopIteration:
 			break
+	if equal_size == True:
+		min_n = min(emo_counter_tot)
+		total=0
+		#making the samples weight		
+		for i in range(0,len(x)):
+	
+			if(emo_counter[ np.nonzero(y[i])[0] ] <min_n):
+				new_x.append(x[i])
+				new_y.append(y[i])	
+				emo_counter[ np.nonzero(y[i])[0] ] = emo_counter[ np.nonzero(y[i])[0] ] +1	
+				total =total + 1
+		emo_counter_tot = emo_counter
+		x = new_x
+		y = new_y
 
-	min_n = min(emo_counter_tot)
-	total=0
-	#making the samples weight		
-	for i in range(0,len(x)):
-
-		if(emo_counter[ np.nonzero(y[i])[0] ] <min_n):
-			new_x.append(x[i])
-			new_y.append(y[i])	
-			emo_counter[ np.nonzero(y[i])[0] ] = emo_counter[ np.nonzero(y[i])[0] ] +1	
-			total =total + 1
-
-	class_weight = [ (total-x) for x in emo_counter]
+	class_weight = [ (total-x) for x in emo_counter_tot]
 	min_n = min(class_weight)
 	class_weight = [ x/min_n for x in class_weight]
 
@@ -124,7 +127,7 @@ def static_dataset(folder,gender,emotion,frame_number,equal_size=False):
 		class_weight_dict.update({i:class_weight[i]})
 
 	print('finished data')
-	return numpy.array(new_x),numpy.array(new_y),class_weight
+	return numpy.array(x),numpy.array(y),class_weight
 
 
 def total_number(file_name, gender, emotion,size_batch,frame_number):
@@ -132,7 +135,7 @@ def total_number(file_name, gender, emotion,size_batch,frame_number):
 	total = 0
 	count = np.zeros(len(emotion))
 
-	with open(os.getcwd()+"/data/"+file_name+"/batch_count_"+file_name, 'rt') as csvfile:
+	with open(os.getcwd()+"/data/"+file_name+"/batch_count", 'rt') as csvfile:
 		spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
 		spamreader = iter(spamreader)
 		next(spamreader)
@@ -186,7 +189,8 @@ def from_file(file,emotion,frame_number):
 			mod = mod +1
 
 			#selecting part
-			selected_row = np.concatenate([ row[39:60] ,row[108:] ])
+			#selected_row = np.concatenate([ row[39:60] ,row[108:] ])
+			selected_row = row[3:]
 
 			#convert array of stringo to array of float skipping the first two element
 			five_on_row.extend(list(map(float,selected_row)))
@@ -195,6 +199,8 @@ def from_file(file,emotion,frame_number):
 
 				#print(len(five_on_row))
 				#print(Categorical_label(row[0]))
+
+
 				yield	np.array(five_on_row) , Categorical_label(row[0],emotion)
 
 

@@ -4,7 +4,7 @@ import re
 
 #the paths assume: all feature CSSV files are in base_path, all label files in
 #base_path + labeltxt_sub_path
-base_path = "/Users/niklasbachmaier/IEMOCAP_Data/IEMOCAP_SPLIT_COPY/IEMOCAP_feature_validation/"
+base_path = os.getcwd()+"/data/IEMOCAP_feature_validation_g/"
 #base_path = "/Users/niklasbachmaier/IEMOCAP_Data/dummy_test/"
 labeltxt_sub_path = "emo_evaluation"
 map_csv_label_file = "map_csv_label"
@@ -37,8 +37,7 @@ def insert_label_feature(file_to_change,label):
             line_counter += 1
             row[0] = label
             new_file_rows.append(row)
-            if (line_counter % 5) == 0:
-                count_mod5[count_var] += 1
+            count_mod5[count_var] += 1
 
     with open(file_to_change,'w') as file_to_write:
         writer = csv.writer(file_to_write)

@@ -3,7 +3,7 @@ import os, os.path
 
 
 
-new_folder = "train"
+new_folder = "validation_g"
 
 #file with the tuple "name file" "label"
 file_label = "data/IEMOCAP_feature_"+new_folder+"/map_csv_label.csv"

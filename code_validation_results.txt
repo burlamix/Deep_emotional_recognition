@@ -1,13 +1,159 @@
 
 
 
-activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fe61a4ae240>, batch size = 32, epoch= 2, learning rate= 0.000050number of hidden1 neurons: 500, number of hidden2 neurons: 500, number of hidden3 neurons: 500, number of hidden4 neurons: 500
-   ---training---[893 419]
-   ---training---[ 231 1081]
-   ---test---  [160 414][7.60976287276072, 0.5278745644599303]
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f26333c8ac8>, batch size = 8, epoch= 2, learning rate= 0.000050number of hidden1 neurons: 100, number of hidden2 neurons: 100, number of hidden3 neurons: 100, number of hidden4 neurons: 100
+   ---training---[ 187    0 1560  219]
+   ---training---[   0    0 1560    0]
+   ---test---  [  0   0 585   0][11.62707055959946, 0.27863247863247864]
 
 
-activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fe614200198>, batch size = 32, epoch= 2, learning rate= 0.000050number of hidden1 neurons: 256, number of hidden2 neurons: 256, number of hidden3 neurons: 256, number of hidden4 neurons: 256
-   ---training---[ 190 1122]
-   ---training---[ 198 1114]
-   ---test---  [ 88 486][8.171368980033888, 0.4930313588850174]
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f262aee9978>, batch size = 8, epoch= 2, learning rate= 0.000050number of hidden1 neurons: 256, number of hidden2 neurons: 256, number of hidden3 neurons: 256, number of hidden4 neurons: 256
+   ---training---[   0 1560 1560 1535]
+   ---training---[   0    0 1560    0]
+   ---test---  [  0   0 585   0][11.62707055959946, 0.27863247863247864]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f0667388ac8>, batch size = 8, epoch= 300, learning rate= 0.010000number of hidden1 neurons: 256, number of hidden2 neurons: 128, number of hidden3 neurons: 64, number of hidden4 neurons: 32
+   ---training---[1560    0 1559 1172]
+   ---training---[   0    0 1560    0]
+   ---test---  [  0   1 584   0][1.536586795709072, 0.27692307692307694]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f06673880b8>, batch size = 8, epoch= 300, learning rate= 0.005000number of hidden1 neurons: 256, number of hidden2 neurons: 128, number of hidden3 neurons: 64, number of hidden4 neurons: 32
+   ---training---[   0    0 1560    0]
+   ---training---[   0    0 1560    0]
+   ---test---  [  0   0 585   0][1.5258260294922397, 0.27863247863247864]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f0667390f98>, batch size = 8, epoch= 300, learning rate= 0.001000number of hidden1 neurons: 256, number of hidden2 neurons: 128, number of hidden3 neurons: 64, number of hidden4 neurons: 32
+   ---training---[   0    0 1560    0]
+   ---training---[   0    0 1560   13]
+   ---test---  [  0   1 584   3][1.7595568212433759, 0.27692307692307694]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f0667390710>, batch size = 8, epoch= 300, learning rate= 0.000500number of hidden1 neurons: 256, number of hidden2 neurons: 128, number of hidden3 neurons: 64, number of hidden4 neurons: 32
+   ---training---[   0    0 1560   13]
+   ---training---[   0    0 1560   16]
+   ---test---  [  0   1   5 579][12.979782251111322, 0.19316239316239317]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f06673a0f98>, batch size = 8, epoch= 300, learning rate= 0.000100number of hidden1 neurons: 256, number of hidden2 neurons: 128, number of hidden3 neurons: 64, number of hidden4 neurons: 32
+   ---training---[   0    0 1560   16]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fd24df88ac8>, batch size = 8, epoch= 300, learning rate= 0.010000number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560 1546]
+   ---training---[   0    0 1560    0]
+   ---test---  [  0   1 584  47][4.50163711848804, 0.27692307692307694]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fd24df880b8>, batch size = 8, epoch= 300, learning rate= 0.005000number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560    0]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f4b13e6cac8>, batch size = 8, epoch= 300, learning rate= 0.010000number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   5 1560 1558    0]
+   ---training---[   0    0 1560    0]
+   ---test---  [  0   0 585   0][1.8719194481419956, 0.27863247863247864]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f4b13e6c0b8>, batch size = 8, epoch= 300, learning rate= 0.005000number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560    0]
+   ---training---[   0    0 1560   15]
+   ---test---  [362   0 578 109][3.099917978876167, 0.2341880341880342]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f4b13e74f98>, batch size = 8, epoch= 300, learning rate= 0.001000number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560   15]
+   ---training---[   0    0 1560   15]
+   ---test---  [  0   0   1 585][12.982641694280836, 0.19316239316239317]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f4b13e74710>, batch size = 8, epoch= 300, learning rate= 0.000500number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560   15]
+   ---training---[   0    0 1560  226]
+   ---test---  [  0   0   2 584][12.957388540007111, 0.19316239316239317]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f4b13e83f98>, batch size = 8, epoch= 300, learning rate= 0.000100number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560  226]
+   ---training---[   0    0 1560  346]
+   ---test---  [  0   0   2 585][12.974602976212134, 0.19316239316239317]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f4afb7f6710>, batch size = 8, epoch= 300, learning rate= 0.000050number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560  346]
+   ---training---[   0    0 1560  388]
+   ---test---  [  0   0   1 585][12.982619045738481, 0.19316239316239317]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f4afa91fdd8>, batch size = 8, epoch= 300, learning rate= 0.000010number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560  388]
+   ---training---[   0    0 1560  377]
+   ---test---  [  0   0   1 585][12.982579063961648, 0.19316239316239317]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f4afb091588>, batch size = 8, epoch= 300, learning rate= 0.000001number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560  377]
+   ---training---[   0    0 1560  376]
+   ---test---  [  0   0   1 585][12.982572188947955, 0.19316239316239317]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7f4afa4346a0>, batch size = 8, epoch= 300, learning rate= 0.000000number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560  376]
+   ---training---[   0    0 1560  376]
+   ---test---  [  0   0   1 585][12.982571866980985, 0.19316239316239317]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fb16722cb00>, batch size = 8, epoch= 300, learning rate= 0.010000number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560 1560]
+   ---training---[   0    0 1560    1]
+   ---test---  [  0   0  22 576][9.215925011422453, 0.18632478632478633]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fb16722c0f0>, batch size = 8, epoch= 300, learning rate= 0.005000number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560    1]
+   ---training---[   0    0 1560   16]
+   ---test---  [  0   0 455 546][5.452079011054121, 0.20683760683760682]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fb167234f98>, batch size = 8, epoch= 300, learning rate= 0.001000number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560   16]
+   ---training---[   0    0 1560   16]
+   ---test---  [  0   0 123 544][10.313315494697093, 0.20854700854700856]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fb167234748>, batch size = 8, epoch= 300, learning rate= 0.000500number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560   16]
+   ---training---[   0    0 1560   18]
+   ---test---  [  0   0 183 585][9.03208788686343, 0.19316239316239317]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fb167243fd0>, batch size = 8, epoch= 300, learning rate= 0.000100number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560   18]
+   ---training---[   0    0 1560   18]
+   ---test---  [  0   0 167 584][8.50647934393034, 0.20341880341880342]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fb146377780>, batch size = 8, epoch= 300, learning rate= 0.000050number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560   18]
+   ---training---[   0    0 1560   18]
+   ---test---  [  0   0 176 584][8.553208142705063, 0.20170940170940171]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fb146051fd0>, batch size = 8, epoch= 300, learning rate= 0.000010number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560   18]
+   ---training---[   0    0 1560   18]
+   ---test---  [  0   0 177 584][8.552486998004726, 0.20170940170940171]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fb145cde7b8>, batch size = 8, epoch= 300, learning rate= 0.000001number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560   18]
+   ---training---[   0    0 1560   18]
+   ---test---  [  0   0 175 584][8.550018526766246, 0.20170940170940171]
+
+
+activation= relu, dropout= 0.500000, optimizer= <keras.optimizers.Adam object at 0x7fb1457f5550>, batch size = 8, epoch= 300, learning rate= 0.000000number of hidden1 neurons: 128, number of hidden2 neurons: 64, number of hidden3 neurons: 32, number of hidden4 neurons: 16
+   ---training---[   0    0 1560   18]
+   ---training---[   0    0 1560   18]
+   ---test---  [  0   0 175 584][8.550150367464228, 0.20170940170940171]
