@@ -1,8 +1,8 @@
 import csv
 import numpy as np
 import numpy
-#import tkinter
-#from matplotlib import pyplot as plt
+from keras import backend as K
+from keras.layers import Dense
 import keras
 
 import os
@@ -10,6 +10,16 @@ import os
 ex = 'data/sad/Ses01F_impro02_F002.csv'
 #ex = 'data/test.csv'
 
+def reset_weights(model):
+    session = K.get_session()
+    for layer in model.layers:
+        if isinstance(layer, Dense):
+            old = layer.get_weights()
+            layer.kernel.initializer.run(session=session)
+            layer.bias.initializer.run(session=session)
+            print(np.array_equal(old, layer.get_weights())," after initializer run")
+        else:
+            print(layer, "not reinitialized")
 
 
 class PlotLosses(keras.callbacks.Callback):
@@ -77,7 +87,7 @@ def weight_class(file_name,emotion,gender):
 
 	return class_weight_dict
 
-def static_dataset(folder,gender,emotion,frame_number,equal_size=True):
+def static_dataset(folder,gender,emotion,frame_number,equal_size=False):
 
 	data_generator = dataset_generator(1,folder,gender,emotion,frame_number,stop=True)
 
