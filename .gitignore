@@ -6,6 +6,7 @@
 **/train
 **/test
 **/validation
+**/data
 
 __pycache__/utils\.cpython-35\.pyc
 

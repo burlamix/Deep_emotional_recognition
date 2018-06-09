@@ -99,9 +99,9 @@ model.compile(loss='categorical_crossentropy',
 
 
 #resolving problem on unbalanced dataset
-x,y,class_weight_dict = static_dataset('train','M',emotions,frame_number)
-x_test,y_test,class_weight_dict_test = static_dataset('test','M',emotions,frame_number)
-x_v,y_v,_ = static_dataset('validation','M',emotions,frame_number)
+x,y,class_weight_dict = static_dataset('HLF','train','M',emotions,frame_number)
+x_test,y_test,class_weight_dict_test = static_dataset('HLF','test','M',emotions,frame_number)
+x_v,y_v,_ = static_dataset('HLF','validation','M',emotions,frame_number)
 
 
 print("class weights")

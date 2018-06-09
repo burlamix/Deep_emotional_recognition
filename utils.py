@@ -87,9 +87,9 @@ def weight_class(file_name,emotion,gender):
 
 	return class_weight_dict
 
-def static_dataset(folder,gender,emotion,frame_number,equal_size=False):
+def static_dataset(feature_type,folder,gender,emotion,frame_number,equal_size=False):
 
-	data_generator = dataset_generator(1,folder,gender,emotion,frame_number,stop=True)
+	data_generator = dataset_generator(1,feature_type,folder,gender,emotion,frame_number,stop=True)
 
 	x=[]
 	y=[]
@@ -140,12 +140,12 @@ def static_dataset(folder,gender,emotion,frame_number,equal_size=False):
 	return numpy.array(x),numpy.array(y),class_weight
 
 
-def total_number(file_name, gender, emotion,size_batch,frame_number):
+def total_number(feature_type,file_name, gender, emotion,size_batch,frame_number):
 
 	total = 0
 	count = np.zeros(len(emotion))
 
-	with open(os.getcwd()+"/data/"+file_name+"/batch_count", 'rt') as csvfile:
+	with open(os.getcwd()+"/data/"+feature_type+'/'+file_name+"/batch_count", 'rt') as csvfile:
 		spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
 		spamreader = iter(spamreader)
 		next(spamreader)
@@ -237,10 +237,10 @@ def from_folder(folder,emotion,frame_number):
 
 
 
-def dataset_generator(batch_size,folder,gender,emotion,frame_number,stop=False):
+def dataset_generator(batch_size,feature_type,folder,gender,emotion,frame_number,stop=False):
 
 
-	total,folder_name,probability = total_number(folder, gender, emotion,batch_size,frame_number)
+	total,folder_name,probability = total_number(feature_type,folder, gender, emotion,batch_size,frame_number)
 
 	initial_probability = probability
 
@@ -248,7 +248,7 @@ def dataset_generator(batch_size,folder,gender,emotion,frame_number,stop=False):
 	no_stop = True
 	#make a list of generator for each folder
 	for name in folder_name:
-		generator_list.append(from_folder("data/"+folder+"/"+name+'_'+gender,emotion,frame_number))
+		generator_list.append(from_folder("data/"+feature_type+'/'+folder+"/"+name+'_'+gender,emotion,frame_number))
 
 	batch_counter = 0
 	x_batch = []
