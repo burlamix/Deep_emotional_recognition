@@ -1,23 +1,23 @@
-[ 08.06.2018 - 16:40:29 ]
+[ 09.06.2018 - 10:50:25 ]
     (MSG) [2] in SMILExtract : openSMILE starting!
-[ 08.06.2018 - 16:40:29 ]
+[ 09.06.2018 - 10:50:25 ]
     (MSG) [2] in SMILExtract : config file is: /home/simone/Documents/univerista/delft/deep_learning/viv3/opensmile-2.3.0/config/IS09_emotion.conf
-[ 08.06.2018 - 16:40:29 ]
+[ 09.06.2018 - 10:50:25 ]
     (MSG) [2] in cComponentManager : successfully registered 96 component types.
-[ 08.06.2018 - 16:40:29 ]
+[ 09.06.2018 - 10:50:25 ]
     (MSG) [2] in instance 'lldhtksink' : No filename given, disabling this sink component.
-[ 08.06.2018 - 16:40:29 ]
+[ 09.06.2018 - 10:50:25 ]
     (MSG) [2] in instance 'lldarffsink' : No filename given, disabling this sink component.
-[ 08.06.2018 - 16:40:29 ]
+[ 09.06.2018 - 10:50:25 ]
     (MSG) [2] in instance 'arffsink' : No filename given, disabling this sink component.
-[ 08.06.2018 - 16:40:29 ]
+[ 09.06.2018 - 10:50:25 ]
     (MSG) [2] in instance 'csvsink' : No filename given, disabling this sink component.
-[ 08.06.2018 - 16:40:29 ]
+[ 09.06.2018 - 10:50:25 ]
     (MSG) [2] in instance 'htksink' : No filename given, disabling this sink component.
-[ 08.06.2018 - 16:40:29 ]
+[ 09.06.2018 - 10:50:25 ]
     (MSG) [2] in cComponentManager : successfully finished createInstances
                                  (25 component instances were finalised, 1 data memories were finalised)
-[ 08.06.2018 - 16:40:29 ]
+[ 09.06.2018 - 10:50:25 ]
     (MSG) [2] in cComponentManager : starting single thread processing loop
-[ 08.06.2018 - 16:40:29 ]
-    (MSG) [2] in cComponentManager : Processing finished! System ran for 23 ticks.
+[ 09.06.2018 - 10:50:25 ]
+    (MSG) [2] in cComponentManager : Processing finished! System ran for 126 ticks.

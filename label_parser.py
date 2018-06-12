@@ -4,7 +4,7 @@ import re
 
 #the paths assume: all feature CSSV files are in base_path, all label files in
 #base_path + labeltxt_sub_path
-base_path = os.getcwd()+"/data/IEMOCAP_feature_validation_g/"
+base_path = os.getcwd()+"/data/LLF/train_feature/"
 #base_path = "/Users/niklasbachmaier/IEMOCAP_Data/dummy_test/"
 labeltxt_sub_path = "emo_evaluation"
 map_csv_label_file = "map_csv_label"

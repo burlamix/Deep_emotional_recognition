@@ -10,7 +10,7 @@ from keras import regularizers
 from keras.callbacks import EarlyStopping
 from keras.initializers import glorot_uniform  
 from keras import backend as K
-from keras.layers import Dense
+from keras.layers import Dense,LSTM,Dropout
 
 import matplotlib.pyplot as plt
 
@@ -37,8 +37,8 @@ earlystop = EarlyStopping(monitor='val_acc', min_delta=0.0001, patience=50, \
 #SCRIPT PARAM
 trainable = 'True'
 n_different_training= 70
-epoc = 120
-feature_type = "HLF"
+epoc = 12
+feature_type = "LLF"
 emotions = ['ang', 'exc', 'neu', 'sad']
 #emotions = ['ang','dis','exc','fea','fru','hap','neu','oth','sad','sur','xxx']
 
@@ -51,7 +51,7 @@ save_weight = False
 
 #MODEL PARAM
 size_batch2 = 32
-frame_number = 1
+frame_number = 25
 regu = 0.0000
 bias = True
 drop_rate = 0.2
@@ -64,30 +64,30 @@ if feature_type =="LLF":
 
 
 model = Sequential()
-model.add(Dense(254, activation='relu', input_dim=frame_number*feature_number, name='dense_1',trainable=trainable,
-	kernel_initializer='glorot_uniform',use_bias=bias,bias_initializer="zeros",kernel_regularizer=regularizers.l1_l2(regu,regu)))
-model.add(Dropout(drop_rate))
-model.add(Dense(254, activation='relu', name='dense_2',trainable=trainable,
-	kernel_initializer='glorot_uniform',use_bias=bias,bias_initializer="zeros",kernel_regularizer=regularizers.l1_l2(regu,regu)))
-model.add(Dropout(drop_rate))
-model.add(Dense(254, activation='relu', name='dense_3',trainable=trainable,
-	kernel_initializer='glorot_uniform',use_bias=bias,bias_initializer="zeros",kernel_regularizer=regularizers.l1_l2(regu,regu)))
-model.add(Dropout(drop_rate))
-model.add(Dense(254, activation='relu', name='dense_4',
-	kernel_initializer='glorot_uniform',use_bias=bias,bias_initializer="zeros",kernel_regularizer=regularizers.l1_l2(regu,regu)))
-#model.add(Dropout(drop_rate))
+model.add(LSTM(512, return_sequences=True, input_shape=(frame_number, feature_number)))
+model.add(Activation('tanh'))
+model.add(LSTM(256, return_sequences=False))
+model.add(Activation('tanh'))
+model.add(Dropout(0.3))
+model.add(Dense(512))
+model.add(Activation('tanh'))
+model.add(Dropout(0.3))
+model.add(Dense(512))
+model.add(Dropout(0.3))
+model.add(Activation('tanh'))
+model.add(Dense(len(emotions)))
+model.add(Activation('softmax'))
 
-
-model.add(Dense(len(emotions), activation='softmax',name='dense_f'))
 
 
 #optimizer
 adadelta = keras.optimizers.Adadelta(lr=1, rho=0.95, epsilon=None, decay=0.0)
-adam =keras.optimizers.Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+adam =keras.optimizers.Adam(lr=0.00001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 sgd = SGD(lr=0.00000, decay=0, momentum=0, nesterov=True)
 
 if load_weights == True:
 	model.load_weights('weights',by_name=True)
+
 
 model.compile(loss='categorical_crossentropy',
               optimizer=adam,
@@ -102,6 +102,9 @@ model.compile(loss='categorical_crossentropy',
 
 #resolving problem on unbalanced dataset
 x,y,class_weight_dict = static_dataset(feature_type,'train','M',emotions,frame_number)
+
+
+
 x_test,y_test,class_weight_dict_test = static_dataset(feature_type,'test','M',emotions,frame_number)
 x_v,y_v,_ = static_dataset(feature_type,'validation','M',emotions,frame_number)
 

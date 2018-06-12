@@ -105,6 +105,8 @@ def static_dataset(feature_type,folder,gender,emotion,frame_number,equal_size=Fa
 		total = total +1
 		try:
 			g = next(data_generator)
+			#print(g[0][0])
+			#exit()
 			x.append(g[0][0])
 			y.append(g[1][0])	
 
@@ -186,6 +188,7 @@ def reset_probability(folder_name):
 
 #generator that return  five rows as array for each call
 def from_file(file,emotion,frame_number):
+	count = 0
 	with open(file, 'rt') as csvfile:
 		spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
 		#skipp the first row
@@ -193,7 +196,7 @@ def from_file(file,emotion,frame_number):
 		next(spamreader)
 
 		mod=0
-		five_on_row =[]
+		for_to_pass =[]
 		for row in spamreader:
 
 			mod = mod +1
@@ -202,20 +205,27 @@ def from_file(file,emotion,frame_number):
 			#selected_row = np.concatenate([ row[39:60] ,row[108:] ])
 			selected_row = row[3:]
 
+
 			#convert array of stringo to array of float skipping the first two element
-			five_on_row.extend(list(map(float,selected_row)))
+			if frame_number == 1:
+				for_to_pass.extend(list(map(float,selected_row)))
+			else:
+				for_to_pass.append(list(map(float,selected_row)))
+
 
 			if mod==frame_number :
 
-				#print(len(five_on_row))
-				#print(Categorical_label(row[0]))
+				yield	np.array(for_to_pass) , Categorical_label(row[0],emotion)
+				break
+
+		if mod < frame_number:
+			while mod != frame_number:
+				for_to_pass.append(list(map(float,selected_row)))
+				mod = mod +1
+
+			yield	np.array(for_to_pass) , Categorical_label(row[0],emotion)
 
 
-				yield	np.array(five_on_row) , Categorical_label(row[0],emotion)
-
-
-				mod=0
-				five_on_row =[]
 
 
 #generator that return five rows as array for each call, from all the file in the fiven folder
@@ -229,7 +239,6 @@ def from_folder(folder,emotion,frame_number):
 			while True:
 				try:
 					new_d =np.array(next(iter_file))
-
 					yield new_d
 				except StopIteration:
 					#end of the file

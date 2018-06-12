@@ -3,9 +3,9 @@ import os
 to_extract = "nope"
 rootdir = '/Documents/univerista/delft/deep_learning/viv3/Emotional_recognition'
 openS_path = "/home/simone/Documents/univerista/delft/deep_learning/viv3/opensmile-2.3.0/"
-folder_for_feature = "/home/simone/Documents/univerista/delft/deep_learning/viv3/Emotional_recognition/data/LLF/test_feature/"
+folder_for_feature = "/home/simone/Documents/univerista/delft/deep_learning/viv3/Emotional_recognition/data/LLF/val_feature/"
 
-folder_from_data = os.walk(os.getcwd()+"/data/IEMOCAP_reduced/test")
+folder_from_data = os.walk(os.getcwd()+"/data/IEMOCAP_reduced/val")
 count = 0
 
 for subdir, dirs, files in folder_from_data:
