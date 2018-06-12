@@ -37,7 +37,7 @@ earlystop = EarlyStopping(monitor='val_acc', min_delta=0.0001, patience=50, \
 
 #SCRIPT PARAM
 trainable = 'True'
-n_different_training= 20
+n_different_training= 3
 #epoc = 120 magic number
 epoc = 120
 feature_type = "HLF"
@@ -65,24 +65,30 @@ if feature_type =="LLF":
 
 
 
-model = FFNN(trainable=trainable,feature_number=feature_number,frame_number=frame_number,emotions=emotions,lr=0.0001)
+normal_FFNN = FFNN(trainable=trainable,feature_number=feature_number,frame_number=frame_number,emotions=emotions,lr=0.0001)
+
+
 
 
 
 #MALE DATASET
-x,y,class_weight_dict = static_dataset(feature_type,'train','F',emotions,frame_number)
-x_v,y_v,_ = static_dataset(feature_type,'test','F',emotions,frame_number)
+x_tr_m,y_tr_m,class_weight_dict_m = static_dataset(feature_type,'train','M',emotions,frame_number)
+x_ts_m,y_ts_m,_ = static_dataset(feature_type,'validation','M',emotions,frame_number)
 
 #FEMALE DATASET
+x_tr_f,y_tr_f,class_weight_dict_f = static_dataset(feature_type,'train','F',emotions,frame_number)
+x_ts_f,y_ts_f,_ = static_dataset(feature_type,'test','F',emotions,frame_number)
 
 
 
 #DATASET NORMALIZATION
-x = numpy.array(x)
-x = tf.keras.utils.normalize(x,    axis=-1,    order=2)
-y = numpy.array(y)
+x_tr_m = numpy.array(x_tr_m)
+x_tr_m = tf.keras.utils.normalize(x_tr_m,    axis=-1,    order=2)
+y_tr_m = numpy.array(y_tr_m)
 
-
+x_tr_f = numpy.array(x_tr_f)
+x_tr_f = tf.keras.utils.normalize(x_tr_f,    axis=-1,    order=2)
+y_tr_f = numpy.array(y_tr_f)
 #cass_weight_dict = weight_class('train',emotions,'M')
 
 
@@ -94,22 +100,33 @@ avg_h_val_acc = []
 
 
 
-#print("\n   ---training---")
-#print(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
 
 for i in range(0,n_different_training):
 	print(i)
 
-	history = model.fit(x=x,y=y,batch_size=size_batch2, epochs=epoc,shuffle=True,
-				class_weight=class_weight_dict,validation_data=(x_v, y_v),callbacks=[plot_losses])
+	print("           NORMAL MODEL ")
+	history = normal_FFNN.fit(x=x_tr_m,y=y_tr_m,batch_size=size_batch2, epochs=epoc,shuffle=True,
+				class_weight=class_weight_dict_m,validation_data=(x_ts_m, y_ts_m),callbacks=[plot_losses])
 
 	print("\n   ---training---")
-	print(numpy.sum(model.predict(x=x,batch_size=1)> 1/len(emotions),axis=0))
+	print(numpy.sum(normal_FFNN.predict(x=x_tr_m,batch_size=1)> 1/len(emotions),axis=0))
 	print("\n   ---validation.. now test..---")
-	print(numpy.sum(model.predict(x=x_v,batch_size=1)> 1/len(emotions),axis=0))
+	print(numpy.sum(normal_FFNN.predict(x=x_ts_m,batch_size=1)> 1/len(emotions),axis=0))
 
-	reset_weights(model)
 
+	normal_FFNN.save_weights("weights_FFNN.h5")
+
+
+	print("           TRANFERT MODEL ")
+
+	transfert_FFNN = FFNN(trainable=False,wight_file_name="weights_FFNN.h5",
+							feature_number=feature_number,frame_number=frame_number,emotions=emotions,lr=0.00000001)
+
+
+	history_tranfert = transfert_FFNN.fit(x=x_tr_f,y=y_tr_f,batch_size=size_batch2, epochs=epoc,shuffle=True,
+				class_weight=class_weight_dict_f,validation_data=(x_ts_f, y_ts_f),callbacks=[plot_losses])
+
+	reset_weights(normal_FFNN)
 
 
 	#STATISTIC
