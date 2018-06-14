@@ -37,7 +37,7 @@ earlystop = EarlyStopping(monitor='val_acc', min_delta=0.0001, patience=50, \
 
 #SCRIPT PARAM
 trainable = 'True'
-n_different_training= 3
+n_different_training= 10
 #epoc = 120 magic number
 epoc = 120
 feature_type = "HLF"
@@ -91,6 +91,12 @@ x_tr_f = tf.keras.utils.normalize(x_tr_f,    axis=-1,    order=2)
 y_tr_f = numpy.array(y_tr_f)
 #cass_weight_dict = weight_class('train',emotions,'M')
 
+x_tr_f = x_tr_f[::4]
+y_tr_f = y_tr_f[::4]
+
+print(len(x_tr_m))
+print(len(x_tr_f))
+
 
 
 avg_h_loss = []
@@ -98,11 +104,16 @@ avg_h_val_loss = []
 avg_h_acc = []
 avg_h_val_acc = []
 
+avg_h_loss_t = []
+avg_h_val_loss_t = []
+avg_h_acc_t = []
+avg_h_val_acc_t = []
 
 
-
+#################################
+######### with transfer ############
+##################################
 for i in range(0,n_different_training):
-	print(i)
 
 	print("           NORMAL MODEL ")
 	history = normal_FFNN.fit(x=x_tr_m,y=y_tr_m,batch_size=size_batch2, epochs=epoc,shuffle=True,
@@ -120,11 +131,35 @@ for i in range(0,n_different_training):
 	print("           TRANFERT MODEL ")
 
 	transfert_FFNN = FFNN(trainable=False,wight_file_name="weights_FFNN.h5",
-							feature_number=feature_number,frame_number=frame_number,emotions=emotions,lr=0.00000001)
+							feature_number=feature_number,frame_number=frame_number,emotions=emotions,lr=0.00001,last_layer_same=False)
 
 
 	history_tranfert = transfert_FFNN.fit(x=x_tr_f,y=y_tr_f,batch_size=size_batch2, epochs=epoc,shuffle=True,
 				class_weight=class_weight_dict_f,validation_data=(x_ts_f, y_ts_f),callbacks=[plot_losses])
+
+	reset_weights(normal_FFNN)
+
+
+	#STATISTIC
+	avg_h_loss_t.append(history.history['loss'])
+	avg_h_val_loss_t.append(history.history['val_loss'])
+	avg_h_acc_t.append(history.history['acc'])
+	avg_h_val_acc_t.append(history.history['val_acc'])
+
+
+
+#	NO TRANSFERT 
+
+for i in range(0,n_different_training):
+
+	print("           NO TRANFERT    ")
+	history = normal_FFNN.fit(x=x_tr_f,y=y_tr_f,batch_size=size_batch2, epochs=epoc,shuffle=True,
+				class_weight=class_weight_dict_f,validation_data=(x_ts_f, y_ts_f),callbacks=[plot_losses])
+
+	print("\n   ---training---")
+	print(numpy.sum(normal_FFNN.predict(x=x_tr_m,batch_size=1)> 1/len(emotions),axis=0))
+	print("\n   ---validation.. now test..---")
+	print(numpy.sum(normal_FFNN.predict(x=x_ts_m,batch_size=1)> 1/len(emotions),axis=0))
 
 	reset_weights(normal_FFNN)
 
@@ -138,13 +173,13 @@ for i in range(0,n_different_training):
 
 
 
-#COMPUTE STATISTICS
+
+
+#COMPUTE STATISTICS						NO TRANSFER
 avg_h_loss = numpy.array(avg_h_loss)
 avg_h_val_loss = numpy.array(avg_h_val_loss)
 avg_h_acc = numpy.array(avg_h_acc)
 avg_h_val_acc = numpy.array(avg_h_val_acc)
-
-
 avg_h_loss = np.average(avg_h_loss,axis=0)
 avg_h_val_loss = np.average(avg_h_val_loss,axis=0)
 avg_h_acc = np.average(avg_h_acc,axis=0)
@@ -152,7 +187,15 @@ avg_h_val_acc = np.average(avg_h_val_acc,axis=0)
 
 
 
-
+#COMPUTE STATISTICS						TRANSFER
+avg_h_loss_t = numpy.array(avg_h_loss_t)
+avg_h_val_loss_t = numpy.array(avg_h_val_loss_t)
+avg_h_acc_t = numpy.array(avg_h_acc_t)
+avg_h_val_acc_t = numpy.array(avg_h_val_acc_t)
+avg_h_loss_t = np.average(avg_h_loss_t,axis=0)
+avg_h_val_loss_t = np.average(avg_h_val_loss_t,axis=0)
+avg_h_acc_t = np.average(avg_h_acc_t,axis=0)
+avg_h_val_acc_t = np.average(avg_h_val_acc_t,axis=0)
 
 
 
@@ -160,20 +203,20 @@ avg_h_val_acc = np.average(avg_h_val_acc,axis=0)
 #PRINT GRAPH
 print(history.history.keys())
 # summarize history for accuracy
-plt.plot(avg_h_acc)
+plt.plot(avg_h_val_acc_t)
 plt.plot(avg_h_val_acc)
 plt.title('model accuracy')
 plt.ylabel('accuracy')
 plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
+plt.legend(['tran', 'no tran'], loc='upper left')
 plt.show()
 # summarize history for loss
-plt.plot(avg_h_loss)
+plt.plot(avg_h_val_loss_t)
 plt.plot(avg_h_val_loss)
 plt.title('model loss')
 plt.ylabel('loss')
 plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
+plt.legend(['tran', 'no tran'], loc='upper left')
 plt.show()
 
 

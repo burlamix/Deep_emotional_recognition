@@ -19,9 +19,9 @@ from sklearn.utils import class_weight
 
 
 
-def FFNN(trainable,feature_number,frame_number,emotions,wight_file_name="null",lr=0.0001,regu=0,bias=True,drop_rate=0.2):
+def FFNN(trainable,feature_number,frame_number,emotions,wight_file_name="null",lr=0.0001,regu=0,bias=True,drop_rate=0.2,last_layer_same=True):
 
-	if trainable==True:
+	if last_layer_same==True:
 		last_layer_name = 'dense_4'
 	else:
 		last_layer_name = 'new_dense_4'
