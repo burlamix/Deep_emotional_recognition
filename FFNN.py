@@ -37,7 +37,7 @@ earlystop = EarlyStopping(monitor='val_acc', min_delta=0.0001, patience=50, \
 
 #SCRIPT PARAM
 trainable = 'True'
-n_different_training= 20
+n_different_training= 10
 #epoc = 120 magic number
 epoc = 120
 feature_type = "HLF"
@@ -69,11 +69,18 @@ model = FFNN(trainable=trainable,feature_number=feature_number,frame_number=fram
 
 
 
-#MALE DATASET
+#FEMALE DATASET
 x,y,class_weight_dict = static_dataset(feature_type,'train','F',emotions,frame_number)
 x_v,y_v,_ = static_dataset(feature_type,'test','F',emotions,frame_number)
 
 #FEMALE DATASET
+
+
+print(len(x))
+x = x[::4]
+y = y[::4]
+
+
 
 
 
